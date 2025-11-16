@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSHomeKitUsageDescription</key>
-    <string>Nous avons besoin d'accéder à HomeKit pour contrôler vos appareils intelligents.</string>
+	<key>com.apple.developer.homekit</key>
+	<true/>
 </dict>
 </plist>
