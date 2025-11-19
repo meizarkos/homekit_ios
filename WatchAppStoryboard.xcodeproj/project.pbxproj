@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		A72699A02ECA8AC9006F2AE9 /* HomeKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726999F2ECA8AC9006F2AE9 /* HomeKitManager.swift */; };
 		A72699A42ECA8BBA006F2AE9 /* PhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72699A32ECA8BBA006F2AE9 /* PhoneApp.swift */; };
-		A79583F32ECA7586004FAFB8 /* AutomaticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79583F22ECA7586004FAFB8 /* AutomaticView.swift */; };
+		A79583F32ECA7586004FAFB8 /* HomeKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79583F22ECA7586004FAFB8 /* HomeKitView.swift */; };
 		A79583F52ECA7CEE004FAFB8 /* WatchFirstScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79583F42ECA7CEE004FAFB8 /* WatchFirstScreenView.swift */; };
+		A7CDED902ECD2567003FAAE5 /* Lightbulb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDED8F2ECD2567003FAAE5 /* Lightbulb.swift */; };
 		E0AE37CF2B4C4375007AE4BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0AE37CE2B4C4375007AE4BE /* Assets.xcassets */; };
 		E0AE37D22B4C4375007AE4BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0AE37D02B4C4375007AE4BE /* LaunchScreen.storyboard */; };
 		E0AE37D72B4C4375007AE4BE /* WatchAppStoryboard WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = E0AE37D62B4C4375007AE4BE /* WatchAppStoryboard WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -48,8 +49,9 @@
 		A726999E2ECA8A39006F2AE9 /* WatchAppStoryboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchAppStoryboard.entitlements; sourceTree = "<group>"; };
 		A726999F2ECA8AC9006F2AE9 /* HomeKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKitManager.swift; sourceTree = "<group>"; };
 		A72699A32ECA8BBA006F2AE9 /* PhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneApp.swift; sourceTree = "<group>"; };
-		A79583F22ECA7586004FAFB8 /* AutomaticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticView.swift; sourceTree = "<group>"; };
+		A79583F22ECA7586004FAFB8 /* HomeKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKitView.swift; sourceTree = "<group>"; };
 		A79583F42ECA7CEE004FAFB8 /* WatchFirstScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFirstScreenView.swift; sourceTree = "<group>"; };
+		A7CDED8F2ECD2567003FAAE5 /* Lightbulb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lightbulb.swift; sourceTree = "<group>"; };
 		E0AE37C22B4C4373007AE4BE /* WatchAppStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchAppStoryboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0AE37CE2B4C4375007AE4BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E0AE37D12B4C4375007AE4BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -80,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A7CDED8E2ECD2555003FAAE5 /* HomeKitExtension */ = {
+			isa = PBXGroup;
+			children = (
+				A7CDED8F2ECD2567003FAAE5 /* Lightbulb.swift */,
+			);
+			path = HomeKitExtension;
+			sourceTree = "<group>";
+		};
 		E0AE37B92B4C4373007AE4BE = {
 			isa = PBXGroup;
 			children = (
@@ -101,13 +111,14 @@
 		E0AE37C42B4C4373007AE4BE /* WatchAppStoryboard */ = {
 			isa = PBXGroup;
 			children = (
+				A7CDED8E2ECD2555003FAAE5 /* HomeKitExtension */,
 				A72699A32ECA8BBA006F2AE9 /* PhoneApp.swift */,
 				A726999F2ECA8AC9006F2AE9 /* HomeKitManager.swift */,
 				A726999E2ECA8A39006F2AE9 /* WatchAppStoryboard.entitlements */,
 				E0AE37CE2B4C4375007AE4BE /* Assets.xcassets */,
 				E0AE37D02B4C4375007AE4BE /* LaunchScreen.storyboard */,
 				E0AE37D32B4C4375007AE4BE /* Info.plist */,
-				A79583F22ECA7586004FAFB8 /* AutomaticView.swift */,
+				A79583F22ECA7586004FAFB8 /* HomeKitView.swift */,
 			);
 			path = WatchAppStoryboard;
 			sourceTree = "<group>";
@@ -226,9 +237,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A79583F32ECA7586004FAFB8 /* AutomaticView.swift in Sources */,
+				A79583F32ECA7586004FAFB8 /* HomeKitView.swift in Sources */,
 				A72699A42ECA8BBA006F2AE9 /* PhoneApp.swift in Sources */,
 				A72699A02ECA8AC9006F2AE9 /* HomeKitManager.swift in Sources */,
+				A7CDED902ECD2567003FAAE5 /* Lightbulb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +464,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WatchAppStoryboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "Nous avons besoin d'accéder à HomeKit pour contrôler vos appareils intelligents.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -482,6 +495,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WatchAppStoryboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "Nous avons besoin d'accéder à HomeKit pour contrôler vos appareils intelligents.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
