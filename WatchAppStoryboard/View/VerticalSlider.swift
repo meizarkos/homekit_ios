@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct VerticalSlider: View {
+    @ObservedObject var handleModeViewModel : HandleModeViewModel
     @Binding var houseParameter: Int
     var setHouseParameterInHomekit:(()->(Void))
     var icon : String
@@ -42,6 +43,7 @@ struct VerticalSlider: View {
                         let location = geo.size.height - gesture.location.y //Flip so 0 is at bottom
                         let newValue = min(max(Double(location / height * 100), 0), 100)
                         houseParameter = Int(newValue)
+                        handleModeViewModel.stopAutoMode()
                         setHouseParameterInHomekit()
                     }
             )

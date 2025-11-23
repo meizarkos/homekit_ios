@@ -2,7 +2,7 @@ import SwiftUI
 import HomeKit
 
 struct HandleModeView : View {
-    @StateObject private var handleModeViewModel: HandleModeViewModel
+    @StateObject var handleModeViewModel: HandleModeViewModel
     @EnvironmentObject var homeKitManager: HomeKitManager
     
     @State private var showCameraDeniedAlert = false
@@ -23,16 +23,19 @@ struct HandleModeView : View {
             VStack(spacing: 40) {
                 HStack(spacing: 25) {
                     VerticalSlider(
+                        handleModeViewModel : handleModeViewModel,
                         houseParameter: $handleModeViewModel.luminosity,
                         setHouseParameterInHomekit: handleModeViewModel.callLuminosityHomekit,
                         icon: "sun.max.fill"
                     )
                     VerticalSlider(
+                        handleModeViewModel : handleModeViewModel,
                         houseParameter: $handleModeViewModel.sound,
                         setHouseParameterInHomekit: handleModeViewModel.callSoundHomekit,
                         icon: "speaker.fill"
                     )
                     Temperature(
+                        handleModeViewModel : handleModeViewModel,
                         temperature: $handleModeViewModel.temp,
                         changeTemperatureInHomekit: handleModeViewModel.callTempHomekit
                     )

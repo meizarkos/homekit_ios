@@ -8,13 +8,17 @@ class HandleModeViewModel: ObservableObject {
     @Published var luminosity: Int
     @Published var isAutoModeOn : Bool = false
     
+    var cameraLuminosity : Int? = nil
+    var hasMoved : Bool? = nil
+    var timerForAutoMode : Timer? = nil
+    
     init(temp: Int, sound: Int, luminosity: Int) {
-            self.temp = temp
-            self.sound = sound
-            self.luminosity = luminosity
-            callTempHomekit()
-            callSoundHomekit()
-            callLuminosityHomekit()
+        self.temp = temp
+        self.sound = sound
+        self.luminosity = luminosity
+        self.callTempHomekit()
+        self.callSoundHomekit()
+        self.callLuminosityHomekit()
     }
     
     func requestCameraPermission(completion: @escaping (Bool) -> Void) {
@@ -39,6 +43,7 @@ class HandleModeViewModel: ObservableObject {
     
     func startAutoMode(){
         isAutoModeOn = true
+        temp = 50
         print("Auto-Mode has all access up and running")
     }
     
@@ -48,17 +53,14 @@ class HandleModeViewModel: ObservableObject {
     }
     
     func callLuminosityHomekit() {
-        stopAutoMode()
         print("Lum is : \(luminosity)")
     }
     
     func callSoundHomekit() {
-        stopAutoMode()
         print("Sound is : \(sound)")
     }
     
     func callTempHomekit() {
-        stopAutoMode()
         print("Temp is : \(temp)")
     }
     

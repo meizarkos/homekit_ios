@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct Temperature: View {
+    @ObservedObject var handleModeViewModel : HandleModeViewModel
     @Binding var temperature: Int
     var changeTemperatureInHomekit : (()->(Void))
     var buttonWidth : CGFloat = 100
@@ -11,6 +12,7 @@ struct Temperature: View {
                 if(temperature < 30){
                     temperature += 1
                     changeTemperatureInHomekit()
+                    handleModeViewModel.stopAutoMode()
                 }
             }) {
                 Image(systemName: "arrow.up")
@@ -32,6 +34,7 @@ struct Temperature: View {
                 if(temperature > 10){
                     temperature -= 1
                     changeTemperatureInHomekit()
+                    handleModeViewModel.stopAutoMode()
                 }
             }) {
                 Image(systemName: "arrow.down")
