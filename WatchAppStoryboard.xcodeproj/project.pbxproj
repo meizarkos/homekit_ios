@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A72046842ED4FC2100F1A077 /* ColorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72046832ED4FC1D00F1A077 /* ColorButton.swift */; };
+		A72046862ED502A600F1A077 /* PictureAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72046852ED502A000F1A077 /* PictureAnalysis.swift */; };
 		A72699A02ECA8AC9006F2AE9 /* HomeKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726999F2ECA8AC9006F2AE9 /* HomeKitManager.swift */; };
 		A72699A42ECA8BBA006F2AE9 /* PhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72699A32ECA8BBA006F2AE9 /* PhoneApp.swift */; };
 		A79583F32ECA7586004FAFB8 /* HomeKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79583F22ECA7586004FAFB8 /* HomeKitView.swift */; };
@@ -50,6 +52,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A72046832ED4FC1D00F1A077 /* ColorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorButton.swift; sourceTree = "<group>"; };
+		A72046852ED502A000F1A077 /* PictureAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureAnalysis.swift; sourceTree = "<group>"; };
 		A726999E2ECA8A39006F2AE9 /* WatchAppStoryboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchAppStoryboard.entitlements; sourceTree = "<group>"; };
 		A726999F2ECA8AC9006F2AE9 /* HomeKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKitManager.swift; sourceTree = "<group>"; };
 		A72699A32ECA8BBA006F2AE9 /* PhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneApp.swift; sourceTree = "<group>"; };
@@ -93,6 +97,7 @@
 		A7B2FA112ED372AB00C7AB95 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A72046832ED4FC1D00F1A077 /* ColorButton.swift */,
 				A7B2FA192ED39AD800C7AB95 /* Temperature.swift */,
 				A7B2FA172ED37E2B00C7AB95 /* VerticalSlider.swift */,
 				A7B2FA122ED372B500C7AB95 /* HandleModeView.swift */,
@@ -103,6 +108,7 @@
 		A7B2FA142ED3730B00C7AB95 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				A72046852ED502A000F1A077 /* PictureAnalysis.swift */,
 				A7B2FA152ED3731400C7AB95 /* HandleModeViewModel.swift */,
 			);
 			path = ViewModel;
@@ -271,6 +277,8 @@
 				A7B2FA132ED372C200C7AB95 /* HandleModeView.swift in Sources */,
 				A7B2FA1A2ED39ADD00C7AB95 /* Temperature.swift in Sources */,
 				A72699A42ECA8BBA006F2AE9 /* PhoneApp.swift in Sources */,
+				A72046862ED502A600F1A077 /* PictureAnalysis.swift in Sources */,
+				A72046842ED4FC2100F1A077 /* ColorButton.swift in Sources */,
 				A72699A02ECA8AC9006F2AE9 /* HomeKitManager.swift in Sources */,
 				A7CDED902ECD2567003FAAE5 /* Lightbulb.swift in Sources */,
 			);

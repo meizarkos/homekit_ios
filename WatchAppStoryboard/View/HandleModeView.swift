@@ -43,6 +43,22 @@ struct HandleModeView : View {
                 .padding(.leading, 20)
                 .padding(.top,20)
                 .frame(maxWidth: .infinity, alignment: .center)
+                HStack(spacing : 30) {
+                    ColorCircleButton(
+                        colorEnum: LightColor.yellow, selectedColor: $handleModeViewModel.selectedColor,
+                        changeColorFunction: handleModeViewModel.updateColor
+                    )
+                    ColorCircleButton(
+                        colorEnum: LightColor.blue, selectedColor: $handleModeViewModel.selectedColor,
+                        changeColorFunction: handleModeViewModel.updateColor
+                    )
+                    ColorCircleButton(
+                        colorEnum: LightColor.red, selectedColor: $handleModeViewModel.selectedColor,
+                        changeColorFunction: handleModeViewModel.updateColor
+                    )
+                }
+                .padding(.leading, 20)
+                .frame(maxWidth: .infinity, alignment: .center)
                 Button(action: {
                     if(handleModeViewModel.isAutoModeOn == true){
                         handleModeViewModel.stopAutoMode()
@@ -58,7 +74,7 @@ struct HandleModeView : View {
                         }
                 }) {
                     VStack(spacing: 15) {
-                        Image(systemName: "bolt.fill") // Example icon
+                        Image(systemName: "bolt.fill")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 30, height: 30)
