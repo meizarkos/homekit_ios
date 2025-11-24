@@ -67,7 +67,7 @@ class HandleModeViewModel: ObservableObject {
         isAutoModeOn = true
         
         DispatchQueue.main.async {
-               self.camera.startSession()
+            self.camera.startSession()
         }
         
         print("Auto-Mode has all access up and running")
@@ -78,7 +78,9 @@ class HandleModeViewModel: ObservableObject {
     
     func stopAutoMode(){
         isAutoModeOn = false
-        camera.stopSession()
+        DispatchQueue.main.async {
+            self.camera.stopSession()
+        }
         print("Auto mode stopped")
         timerForAutoMode?.invalidate()
         timerForAutoMode = nil

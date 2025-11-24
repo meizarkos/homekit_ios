@@ -37,7 +37,6 @@ class PictureAnalysis: NSObject, AVCapturePhotoCaptureDelegate {
         guard session.canAddOutput(photoOutput) else { return } // Get an output to read camera sortie
         session.addOutput(photoOutput)
         session.commitConfiguration()
-        print("Config is over")
     }
     
     func startSession() {
@@ -96,16 +95,16 @@ class PictureAnalysis: NSObject, AVCapturePhotoCaptureDelegate {
         }
         
         let ciImage = CIImage(cgImage: cgImage)
-        let extent = ciImage.extent // Take whole rectangle
-        let avg = CIFilter(name: "CIAreaAverage", // Get average color
+        let extent = ciImage.extent // = use the whole image
+        let avg = CIFilter(name: "CIAreaAverage", // Will output 1 by 1 pixel
                            parameters: [kCIInputImageKey: ciImage,
-                                        kCIInputExtentKey: CIVector(cgRect: extent)])!
+                                        kCIInputExtentKey: CIVector(cgRect: extent)])! // must be vector ( conversion ) and is use to tell whiich part of image to analyse ( here all of the image )
         
-        let output = avg.outputImage! // 4 pixel de couleur
+        let output = avg.outputImage! // pixel de couleur = 4 bytes
         var bitmap = [UInt8](repeating: 0, count: 4) // 4 bit coming from one pixel
 
         let context = CIContext()
-        context.render(output,
+        context.render(output, // = Change the output (define as RECT ) to RGBA8 sorted format
                        toBitmap: &bitmap,
                        rowBytes: 4,
                        bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
