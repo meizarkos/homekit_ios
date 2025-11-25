@@ -66,6 +66,9 @@ struct HandleModeView : View {
                     }
                     handleModeViewModel.requestCameraPermission { granted in
                             if granted {
+                                /**Task {
+                                    await handleModeViewModel.startAutoMode()
+                                }**/
                                 handleModeViewModel.startAutoMode()
                             } else {
                                 handleModeViewModel.isAutoModeOn = false

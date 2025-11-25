@@ -17,10 +17,9 @@ class HandleModeViewModel: ObservableObject {
     @Published var isAutoModeOn : Bool = false
     @Published var selectedColor: LightColor? = nil
     
-    var cameraLuminosity : Int? = nil
-    var hasMoved : Bool? = nil
     var timerForAutoMode : Timer? = nil
-    var camera = PictureAnalysis()
+    let camera = PictureAnalysis()
+    var motionSensor = MotionAnalysis()
     
     init(temp: Int, sound: Int, luminosity: Int) {
         self.temp = temp
@@ -65,21 +64,32 @@ class HandleModeViewModel: ObservableObject {
     
     func startAutoMode(){
         isAutoModeOn = true
-        
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
             self.camera.startSession()
+            self.motionSensor.startAllSensor()
         }
-        
+        /**await withCheckedContinuation { continuation in
+            self.camera.startSession()
+            self.motionSensor.startAllSensor()
+            continuation.resume()
+        }**/
         print("Auto-Mode has all access up and running")
+        
         timerForAutoMode = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             self.camera.capture()
+            self.motionSensor.getMotionData(sound : Binding<Int>(
+                get: { self.sound },
+                set: { self.sound = $0 }
+            ))
+            self.callSoundHomekit()
         }
     }
     
     func stopAutoMode(){
         isAutoModeOn = false
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
             self.camera.stopSession()
+            self.motionSensor.stopAllSensor()
         }
         print("Auto mode stopped")
         timerForAutoMode?.invalidate()
