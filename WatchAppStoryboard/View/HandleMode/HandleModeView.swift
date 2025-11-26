@@ -3,8 +3,6 @@ import HomeKit
 
 struct HandleModeView : View {
     @StateObject var handleModeViewModel: HandleModeViewModel
-    @EnvironmentObject var homeKitManager: HomeKitManager
-    
     @State private var showCameraDeniedAlert = false
     
     init(temp: Int, sound: Int, luminosity: Int) {
@@ -12,7 +10,7 @@ struct HandleModeView : View {
             wrappedValue: HandleModeViewModel(
                 temp: temp,
                 sound: sound,
-                luminosity: luminosity
+                luminosity: luminosity,
             )
         )
     }

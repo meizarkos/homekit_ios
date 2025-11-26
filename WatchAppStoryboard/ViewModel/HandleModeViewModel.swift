@@ -16,6 +16,7 @@ class HandleModeViewModel: ObservableObject {
     @Published var luminosity: Int
     @Published var isAutoModeOn : Bool = false
     @Published var selectedColor: LightColor? = nil
+    var homeKitManager: HomeKitManager = HomeKitManager.instance
     
     var timerForAutoMode : Timer? = nil
     let camera = PictureAnalysis()
@@ -46,7 +47,7 @@ class HandleModeViewModel: ObservableObject {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             completion(true)
-
+            
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 DispatchQueue.main.async {

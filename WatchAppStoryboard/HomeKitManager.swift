@@ -1,12 +1,14 @@
 import HomeKit
 import Combine
 
-class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
+final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
+    static let instance = HomeKitManager()
+    
     var homeManager: HMHomeManager!
     var browser = HMAccessoryBrowser()
     @Published var foundAccessories: [HMAccessory] = []
     
-    override init() {
+    private override init() {
         super.init()
         let manager = HMHomeManager()
         manager.delegate = self
