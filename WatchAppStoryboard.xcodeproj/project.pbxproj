@@ -458,6 +458,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 97CF4D79DP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "WatchAppStoryboard WatchKit App";
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
@@ -489,6 +490,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 97CF4D79DP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "WatchAppStoryboard WatchKit App";
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
@@ -521,6 +523,7 @@
 				CODE_SIGN_ENTITLEMENTS = WatchAppStoryboard/WatchAppStoryboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 97CF4D79DP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WatchAppStoryboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
@@ -553,6 +556,7 @@
 				CODE_SIGN_ENTITLEMENTS = WatchAppStoryboard/WatchAppStoryboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 97CF4D79DP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WatchAppStoryboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";

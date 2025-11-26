@@ -14,7 +14,7 @@ struct PhoneApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HandleModeView(temp: 18, sound: 50, luminosity: 50)
+            HomeKitView()
                 .environmentObject(homeKitManager) //pass to everyone below
         }
     }

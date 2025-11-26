@@ -3,7 +3,7 @@ import Combine
 
 class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
     var homeManager: HMHomeManager!
-    var browser = HMAccessoryBrowser()
+    let browser = HMAccessoryBrowser()
     @Published var foundAccessories: [HMAccessory] = []
     
     override init() {
@@ -14,28 +14,61 @@ class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, HMAcces
         self.browser.delegate = self
     }
     
-    func startScanning() {
-        if(foundAccessories.count > 0){
-            turnAllLight(on: true)
+    public func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
+        if manager.homes.count > 0 {
+            manager.homes.forEach { home in
+                home.rooms.forEach { room in
+                    print("\(room.name)")
+                }
+            }
+            print("Vous avez \(manager.homes.count) maison(s)")
+        } else {
+            print("No home")
         }
+    }
+    
+    // FONCTION CORRIGÉE : Afficher les accessoires d'une maison spécifique
+    func printAccessoriesFromHome(_ home: HMHome) {
+        print("\n === Accessoires de \(home.name) ===")
+        print(" Nombre total: \(home.accessories.count)")
+        
+        if home.accessories.isEmpty {
+            print(" Aucun accessoire dans cette maison")
+        } else {
+            home.accessories.forEach { accessory in
+                print("\n Accessoire: \(accessory.name)")
+                print("   - ID: \(accessory.uniqueIdentifier)")
+                print("   - Type: \(accessory.category.categoryType)")
+                print("   - Pièce: \(accessory.room?.name ?? "Aucune")")
+                print("   - Disponible: \(accessory.isReachable ? "Oui" : " Non")")
+                
+                // Afficher les services
+                print("   - Services (\(accessory.services.count)):")
+                accessory.services.forEach { service in
+                    print("      • \(service.name) (\(service.serviceType))")
+                }
+            }
+        }
+        print(" === Fin de la liste ===\n")
+    }
+    
+    func startScanning() {
         foundAccessories.removeAll()
-        print("Start scanning")
+        print("🔍 Start scanning for new accessories...")
         browser.startSearchingForNewAccessories()
     }
         
     func stopScanning() {
-        print("Stop scanning")
+        print("🛑 Stop scanning")
         browser.stopSearchingForNewAccessories()
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser,
                           didFindNewAccessory accessory: HMAccessory) {
-        
-        DispatchQueue.main.async{ [weak self] in
-            guard let self = self else { return }
+        DispatchQueue.main.async {
             self.foundAccessories.append(accessory)
-            print("Accessoire trouvé : \(accessory.name)")
         }
+        print("Nouvel accessoire trouvé : \(accessory.name)")
     }
         
     func accessoryBrowser(_ browser: HMAccessoryBrowser,
@@ -49,83 +82,50 @@ class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, HMAcces
     func addHome(named name: String) {
         homeManager.addHome(withName: name) { home, error in
             if let error {
-                print("Failed to add home: \(error.localizedDescription)")
-                return
-            }
-
-            guard let home = home else { return }
-
-            /**if self.homeManager.primaryHome == nil {
-                self.homeManager.updatePrimaryHome(home) { error in
-                    if let error {
-                        print("Failed to set primary home: \(error.localizedDescription)")
-                    } else {
-                        print("Primary home set: \(home.name)")
-                    }
-                }
-            }
-            
-            DispatchQueue.main.async {
+                print(" Failed to add home: \(error.localizedDescription)")
+            } else if let home {
                 home.addRoom(withName: "Test") { room, error in
                     if let error {
-                        print("Failed to add room: \(error.localizedDescription)")
+                        print(" Failed to add room: \(error.localizedDescription)")
                     } else {
-                        print("Successfully added room: \(room?.name ?? "nil")")
+                        print("Successfully added room")
                     }
                 }
-            }**/
-
-            print("Successfully added home: \(home.name)")
+                print(" Successfully added home: \(home.name)")
+            }
         }
     }
-
-
     
     func addAccessoryToHome(_ accessory: HMAccessory) {
-        guard let home = homeManager.primaryHome else {
-            print("No home available")
+        guard let home = homeManager.primaryHome ?? homeManager.homes.first else {
+            print(" No home available")
             return
         }
-        print("Requesting to add accessory: \(accessory.name) to \(home.name)")
-        
-        /**home.assignAccessory(accessory,to: home.roomForEntireHome()){error in
-            if let error {
-                print("Failed to add accessory: \(error.localizedDescription)")
-            }
-            else{
-                print("Succesfull add to room")
-            }
-            print("\(accessory.services)")
-        }**/
+        print(" Requesting to add accessory: \(accessory.name)")
             
         home.addAccessory(accessory) { error in
             if let error {
-                print("Failed to add accessory: \(error.localizedDescription)")
+                print(" Failed to add accessory: \(error.localizedDescription)")
             } else {
-                print("Accessory added: \(accessory.name)")
+                print(" Accessory added: \(accessory.name)")
             }
         }
     }
     
-    func addAccessoryUsingUrl(name: String, url: URL) {
-        let request = HMAccessorySetupRequest()
-        request.suggestedAccessoryName = name
-        let home = homeManager.primaryHome!
-        request.homeUniqueIdentifier = home.uniqueIdentifier
-        let room = home.roomForEntireHome()
-        request.suggestedRoomUniqueIdentifier = room.uniqueIdentifier
-        request.payload = HMAccessorySetupPayload(url: url)
-
-        let setupManager = HMAccessorySetupManager()
-        setupManager.performAccessorySetup(using: request, completionHandler: { result, error in
-            if let error = error {
-                print("Error while adding accessory named \(name) to home \(home.name), room \(room.name): \(error.localizedDescription)")
+    // NOUVELLE FONCTION : Contrôler un accessoire
+    func controlAccessory(_ accessory: HMAccessory, turnOn: Bool) {
+        accessory.services.forEach { service in
+            service.characteristics.forEach { characteristic in
+                if characteristic.characteristicType == HMCharacteristicTypePowerState {
+                    characteristic.writeValue(turnOn) { error in
+                        if let error {
+                            print(" Erreur contrôle : \(error.localizedDescription)")
+                        } else {
+                            print(" \(accessory.name) : \(turnOn ? "ON" : "OFF")")
+                        }
+                    }
+                }
             }
-            else {
-                print("Accesory should be added lol")
-            }
-        })
+        }
     }
 }
-
-
