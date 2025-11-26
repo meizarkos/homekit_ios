@@ -7,10 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A72046842ED4FC2100F1A077 /* ColorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72046832ED4FC1D00F1A077 /* ColorButton.swift */; };
+		A72046862ED502A600F1A077 /* PictureAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72046852ED502A000F1A077 /* PictureAnalysis.swift */; };
 		A72699A02ECA8AC9006F2AE9 /* HomeKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726999F2ECA8AC9006F2AE9 /* HomeKitManager.swift */; };
 		A72699A42ECA8BBA006F2AE9 /* PhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72699A32ECA8BBA006F2AE9 /* PhoneApp.swift */; };
+		A7617ABF2ED6623D00AFEA23 /* MotionAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7617ABE2ED6623200AFEA23 /* MotionAnalysis.swift */; };
 		A79583F32ECA7586004FAFB8 /* HomeKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79583F22ECA7586004FAFB8 /* HomeKitView.swift */; };
 		A79583F52ECA7CEE004FAFB8 /* WatchFirstScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79583F42ECA7CEE004FAFB8 /* WatchFirstScreenView.swift */; };
+		A7B2FA132ED372C200C7AB95 /* HandleModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2FA122ED372B500C7AB95 /* HandleModeView.swift */; };
+		A7B2FA162ED3731D00C7AB95 /* HandleModeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2FA152ED3731400C7AB95 /* HandleModeViewModel.swift */; };
+		A7B2FA182ED37E3000C7AB95 /* VerticalSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2FA172ED37E2B00C7AB95 /* VerticalSlider.swift */; };
+		A7B2FA1A2ED39ADD00C7AB95 /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2FA192ED39AD800C7AB95 /* Temperature.swift */; };
 		A7CDED902ECD2567003FAAE5 /* Lightbulb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDED8F2ECD2567003FAAE5 /* Lightbulb.swift */; };
 		E0AE37CF2B4C4375007AE4BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0AE37CE2B4C4375007AE4BE /* Assets.xcassets */; };
 		E0AE37D22B4C4375007AE4BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0AE37D02B4C4375007AE4BE /* LaunchScreen.storyboard */; };
@@ -46,11 +53,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A72046832ED4FC1D00F1A077 /* ColorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorButton.swift; sourceTree = "<group>"; };
+		A72046852ED502A000F1A077 /* PictureAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureAnalysis.swift; sourceTree = "<group>"; };
 		A726999E2ECA8A39006F2AE9 /* WatchAppStoryboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WatchAppStoryboard.entitlements; sourceTree = "<group>"; };
 		A726999F2ECA8AC9006F2AE9 /* HomeKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKitManager.swift; sourceTree = "<group>"; };
 		A72699A32ECA8BBA006F2AE9 /* PhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneApp.swift; sourceTree = "<group>"; };
+		A7617ABE2ED6623200AFEA23 /* MotionAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionAnalysis.swift; sourceTree = "<group>"; };
 		A79583F22ECA7586004FAFB8 /* HomeKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKitView.swift; sourceTree = "<group>"; };
 		A79583F42ECA7CEE004FAFB8 /* WatchFirstScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFirstScreenView.swift; sourceTree = "<group>"; };
+		A7B2FA122ED372B500C7AB95 /* HandleModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleModeView.swift; sourceTree = "<group>"; };
+		A7B2FA152ED3731400C7AB95 /* HandleModeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleModeViewModel.swift; sourceTree = "<group>"; };
+		A7B2FA172ED37E2B00C7AB95 /* VerticalSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSlider.swift; sourceTree = "<group>"; };
+		A7B2FA192ED39AD800C7AB95 /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		A7CDED8F2ECD2567003FAAE5 /* Lightbulb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lightbulb.swift; sourceTree = "<group>"; };
 		E0AE37C22B4C4373007AE4BE /* WatchAppStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchAppStoryboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0AE37CE2B4C4375007AE4BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,6 +96,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A7617ABD2ED6621300AFEA23 /* Sensor_analysis */ = {
+			isa = PBXGroup;
+			children = (
+				A7617ABE2ED6623200AFEA23 /* MotionAnalysis.swift */,
+				A72046852ED502A000F1A077 /* PictureAnalysis.swift */,
+			);
+			path = Sensor_analysis;
+			sourceTree = "<group>";
+		};
+		A7617AC02ED6725300AFEA23 /* HandleMode */ = {
+			isa = PBXGroup;
+			children = (
+				A72046832ED4FC1D00F1A077 /* ColorButton.swift */,
+				A7B2FA192ED39AD800C7AB95 /* Temperature.swift */,
+				A7B2FA172ED37E2B00C7AB95 /* VerticalSlider.swift */,
+				A7B2FA122ED372B500C7AB95 /* HandleModeView.swift */,
+			);
+			path = HandleMode;
+			sourceTree = "<group>";
+		};
+		A7B2FA112ED372AB00C7AB95 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A7617AC02ED6725300AFEA23 /* HandleMode */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A7B2FA142ED3730B00C7AB95 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				A7617ABD2ED6621300AFEA23 /* Sensor_analysis */,
+				A7B2FA152ED3731400C7AB95 /* HandleModeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		A7CDED8E2ECD2555003FAAE5 /* HomeKitExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +162,8 @@
 		E0AE37C42B4C4373007AE4BE /* WatchAppStoryboard */ = {
 			isa = PBXGroup;
 			children = (
+				A7B2FA142ED3730B00C7AB95 /* ViewModel */,
+				A7B2FA112ED372AB00C7AB95 /* View */,
 				A7CDED8E2ECD2555003FAAE5 /* HomeKitExtension */,
 				A72699A32ECA8BBA006F2AE9 /* PhoneApp.swift */,
 				A726999F2ECA8AC9006F2AE9 /* HomeKitManager.swift */,
@@ -238,7 +291,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A79583F32ECA7586004FAFB8 /* HomeKitView.swift in Sources */,
+				A7B2FA182ED37E3000C7AB95 /* VerticalSlider.swift in Sources */,
+				A7B2FA162ED3731D00C7AB95 /* HandleModeViewModel.swift in Sources */,
+				A7B2FA132ED372C200C7AB95 /* HandleModeView.swift in Sources */,
+				A7617ABF2ED6623D00AFEA23 /* MotionAnalysis.swift in Sources */,
+				A7B2FA1A2ED39ADD00C7AB95 /* Temperature.swift in Sources */,
 				A72699A42ECA8BBA006F2AE9 /* PhoneApp.swift in Sources */,
+				A72046862ED502A600F1A077 /* PictureAnalysis.swift in Sources */,
+				A72046842ED4FC2100F1A077 /* ColorButton.swift in Sources */,
 				A72699A02ECA8AC9006F2AE9 /* HomeKitManager.swift in Sources */,
 				A7CDED902ECD2567003FAAE5 /* Lightbulb.swift in Sources */,
 			);
@@ -398,6 +458,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 97CF4D79DP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "WatchAppStoryboard WatchKit App";
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
@@ -429,6 +490,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 97CF4D79DP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "WatchAppStoryboard WatchKit App";
 				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
@@ -461,9 +523,11 @@
 				CODE_SIGN_ENTITLEMENTS = WatchAppStoryboard/WatchAppStoryboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 97CF4D79DP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WatchAppStoryboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Auto mode needs camera access";
 				INFOPLIST_KEY_NSHomeKitUsageDescription = "Nous avons besoin d'accéder à HomeKit pour contrôler vos appareils intelligents.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -492,9 +556,11 @@
 				CODE_SIGN_ENTITLEMENTS = WatchAppStoryboard/WatchAppStoryboard.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 97CF4D79DP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WatchAppStoryboard/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Auto mode needs camera access";
 				INFOPLIST_KEY_NSHomeKitUsageDescription = "Nous avons besoin d'accéder à HomeKit pour contrôler vos appareils intelligents.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

@@ -38,9 +38,9 @@ struct HomeKitView: View {
                                     Text(accessory.name)
                                     Spacer()
                                     Button("Add") {
-                                        homeKitManager.addAccessoryToHome(accessory)
+                                        homeKitManager.addAccessoryUsingUrl(name: "Test",url:URL(string:"X-HM://005EBG2PAJPX5")!)
                                     }
-                                    .buttonStyle(.bordered) // Optional visual improvement
+                                    .buttonStyle(.bordered)
                                 }
                             }
                         }

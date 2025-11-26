@@ -10,12 +10,11 @@ import SwiftUI
 
 @main
 struct PhoneApp: App {
-    @StateObject var homeKitManager = HomeKitManager() //keep alive through refresh etc
 
     var body: some Scene {
         WindowGroup {
-            HomeKitView()
-                .environmentObject(homeKitManager) //pass to everyone below
+            HandleModeView(temp: 18, sound: 50, luminosity: 50)
+                //.environmentObject(homeKitManager) //pass to everyone below
         }
     }
 }
