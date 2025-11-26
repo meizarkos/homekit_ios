@@ -30,15 +30,15 @@ class MotionAnalysis {
         var accelaration : Double = 0
         var gyroSpeed : Double = 0
         guard motionManager.isAccelerometerAvailable else {
-            print("Accelerometer not available (likely simulator).")
+            //print("Accelerometer not available (likely simulator).")
             return
         }
         if let acc = motionManager.accelerometerData {
             let ax = acc.acceleration.x
             let ay = acc.acceleration.y
             let az = acc.acceleration.z
-            print("Accelerometer x: \(ax), y: \(ay), z: \(az)")
-            accelaration = ax + ay + az
+            //print("Accelerometer x: \(ax), y: \(ay), z: \(az)")
+            accelaration = sqrt(ax*ax) + sqrt(ay*ay) + sqrt(az*az)
         }
         
         guard motionManager.isGyroAvailable else {
@@ -49,10 +49,10 @@ class MotionAnalysis {
             let gx = gyro.rotationRate.x
             let gy = gyro.rotationRate.y
             let gz = gyro.rotationRate.z
-            print("Gyroscope x: \(gx), y: \(gy), z: \(gz)")
-            gyroSpeed = gx + gy + gz
+            //print("Gyroscope x: \(gx), y: \(gy), z: \(gz)")
+            gyroSpeed = sqrt((gx*gx)) + sqrt((gy*gy)) + sqrt((gz*gz))
         }
         
-        sound.wrappedValue = Int(accelaration + gyroSpeed)
+        sound.wrappedValue = Int(accelaration + gyroSpeed)*3
     }
 }

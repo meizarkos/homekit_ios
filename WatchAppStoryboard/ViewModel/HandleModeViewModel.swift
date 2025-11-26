@@ -119,7 +119,4 @@ class HandleModeViewModel: ObservableObject {
         print("Color is \(color.rawValue)")
     }
     
-    func updateAllAccesoriesFromMode(){
-        
-    }
 }
