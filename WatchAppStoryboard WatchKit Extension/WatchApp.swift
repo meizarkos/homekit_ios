@@ -4,7 +4,8 @@ import SwiftUI
 struct WatchAppStoryboard_WatchKit_ExtensionApp: App {
     var body: some Scene {
         WindowGroup {
-            WatchFirstScreenView()
+            
+            
         }
     }
 }

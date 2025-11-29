@@ -16,7 +16,7 @@ class HandleModeViewModel: ObservableObject {
     @Published var luminosity: Int
     @Published var isAutoModeOn : Bool = false
     @Published var selectedColor: LightColor? = nil
-    var homeKitManager: HomeKitManager = HomeKitManager.instance
+    var homeKitManager: HomeKitManager = HomeKitManager.shared
     
     var timerForAutoMode : Timer? = nil
     let camera = PictureAnalysis()

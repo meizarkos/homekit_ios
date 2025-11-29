@@ -1,20 +1,14 @@
-//
-//  MyApp.swift
-//  WatchAppStoryboard
-//
-//  Created by Valentin on 16/11/2025.
-//
-
-
 import SwiftUI
 
 @main
 struct PhoneApp: App {
-
+    // Pas besoin de @StateObject, on utilise directement le singleton
+    @State var modeVM = ModeViewModel()
     var body: some Scene {
         WindowGroup {
-            HandleModeView(temp: 18, sound: 50, luminosity: 50)
-                //.environmentObject(homeKitManager) //pass to everyone below
+            HomeKitView()
+                .environmentObject(HomeKitManager.shared)
+                .environmentObject(modeVM)
         }
     }
 }
