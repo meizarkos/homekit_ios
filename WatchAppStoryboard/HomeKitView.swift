@@ -2,8 +2,9 @@ import SwiftUI
 import HomeKit
 
 struct HomeKitView: View {
-    @EnvironmentObject var homeKitManager: HomeKitManager
+    @EnvironmentObject private var homeKitManager: HomeKitManager
     @State private var newHomeName: String = ""
+    @State private var selectedHome: HMHome?
     
     var body: some View {
         NavigationView {
@@ -17,7 +18,16 @@ struct HomeKitView: View {
                     List {
                         Section(header: Text("Maisons")) {
                             ForEach(homeKitManager.homeManager.homes, id: \.uniqueIdentifier) { home in
-                                Text(home.name)
+                                NavigationLink(destination: ModeListView(name: "chill", temperature: 12, sound: 21, luminosity: 22) ){
+                                    
+                                    HStack {
+                                        Label(home.name, systemImage: "house")
+                                        Spacer()
+                                        Text("\(home.accessories.count)")
+                                            .foregroundColor(.gray)
+                                            .font(.caption)
+                                    }
+                                }
                             }
                         }
                     }
@@ -26,11 +36,50 @@ struct HomeKitView: View {
 
                 Divider()
 
+                // --- NOUVEAU : Accessoires de la maison sélectionnée ---
+                if let home = selectedHome {
+                    List {
+                        Section(header: Text("Accessoires de \(home.name)")) {
+                            if home.accessories.isEmpty {
+                                Text("Aucun accessoire dans cette maison")
+                                    .foregroundColor(.secondary)
+                            } else {
+                                ForEach(home.accessories, id: \.uniqueIdentifier) { accessory in
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Text(accessory.name)
+                                                .font(.headline)
+                                            Text(accessory.room?.name ?? "Aucune pièce")
+                                                .font(.caption)
+                                                .foregroundColor(.gray)
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        if !accessory.isReachable {
+                                            Text("Hors ligne")
+                                                .font(.caption)
+                                                .foregroundColor(.red)
+                                        } else {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .foregroundColor(.green)
+                                        }
+                                    }
+                                    .padding(.vertical, 4)
+                                }
+                            }
+                        }
+                    }
+                    .frame(maxHeight: 250)
+                }
+
+                Divider()
+
                 // --- Found accessories LIST ---
                 List {
-                    Section(header: Text("Accessoires trouvés")) {
+                    Section(header: Text("Nouveaux accessoires détectés")) {
                         if homeKitManager.foundAccessories.isEmpty {
-                            Text("Aucun accessoire détecté.")
+                            Text("Aucun nouvel accessoire détecté.")
                                 .foregroundColor(.secondary)
                         } else {
                             ForEach(homeKitManager.foundAccessories, id: \.uniqueIdentifier) { accessory in
@@ -38,7 +87,7 @@ struct HomeKitView: View {
                                     Text(accessory.name)
                                     Spacer()
                                     Button("Add") {
-                                        homeKitManager.addAccessoryUsingUrl(name: "Test",url:URL(string:"X-HM://005EBG2PAJPX5")!)
+                                        homeKitManager.addAccessoryToHome(accessory)
                                     }
                                     .buttonStyle(.bordered)
                                 }
@@ -50,12 +99,12 @@ struct HomeKitView: View {
                 Divider()
 
                 HStack {
-                    Button("🔍 Start scanning") {
+                    Button("Start scanning") {
                         homeKitManager.startScanning()
                     }
                     .buttonStyle(.borderedProminent)
                     
-                    Button("🛑 Stop") {
+                    Button("Stop") {
                         homeKitManager.stopScanning()
                     }
                     .buttonStyle(.bordered)
@@ -78,6 +127,13 @@ struct HomeKitView: View {
                 Spacer()
             }
             .navigationTitle("HomeKit Scanner")
+            .onAppear {
+                // Sélectionner automatiquement la première maison au démarrage
+                if let firstHome = homeKitManager.homeManager.homes.first {
+                    selectedHome = firstHome
+                    homeKitManager.printAccessoriesFromHome(firstHome)
+                }
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,12 +13,12 @@
 		A72699A42ECA8BBA006F2AE9 /* PhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72699A32ECA8BBA006F2AE9 /* PhoneApp.swift */; };
 		A7617ABF2ED6623D00AFEA23 /* MotionAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7617ABE2ED6623200AFEA23 /* MotionAnalysis.swift */; };
 		A79583F32ECA7586004FAFB8 /* HomeKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79583F22ECA7586004FAFB8 /* HomeKitView.swift */; };
-		A79583F52ECA7CEE004FAFB8 /* WatchFirstScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79583F42ECA7CEE004FAFB8 /* WatchFirstScreenView.swift */; };
 		A7B2FA132ED372C200C7AB95 /* HandleModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2FA122ED372B500C7AB95 /* HandleModeView.swift */; };
 		A7B2FA162ED3731D00C7AB95 /* HandleModeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2FA152ED3731400C7AB95 /* HandleModeViewModel.swift */; };
 		A7B2FA182ED37E3000C7AB95 /* VerticalSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2FA172ED37E2B00C7AB95 /* VerticalSlider.swift */; };
 		A7B2FA1A2ED39ADD00C7AB95 /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2FA192ED39AD800C7AB95 /* Temperature.swift */; };
 		A7CDED902ECD2567003FAAE5 /* Lightbulb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDED8F2ECD2567003FAAE5 /* Lightbulb.swift */; };
+		DE5EA1AE2ED7BE5000EB1F84 /* ModeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5EA1AD2ED7BE4900EB1F84 /* ModeViewModel.swift */; };
 		E0AE37CF2B4C4375007AE4BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0AE37CE2B4C4375007AE4BE /* Assets.xcassets */; };
 		E0AE37D22B4C4375007AE4BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0AE37D02B4C4375007AE4BE /* LaunchScreen.storyboard */; };
 		E0AE37D72B4C4375007AE4BE /* WatchAppStoryboard WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = E0AE37D62B4C4375007AE4BE /* WatchAppStoryboard WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -60,12 +60,12 @@
 		A72699A32ECA8BBA006F2AE9 /* PhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneApp.swift; sourceTree = "<group>"; };
 		A7617ABE2ED6623200AFEA23 /* MotionAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionAnalysis.swift; sourceTree = "<group>"; };
 		A79583F22ECA7586004FAFB8 /* HomeKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKitView.swift; sourceTree = "<group>"; };
-		A79583F42ECA7CEE004FAFB8 /* WatchFirstScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFirstScreenView.swift; sourceTree = "<group>"; };
 		A7B2FA122ED372B500C7AB95 /* HandleModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleModeView.swift; sourceTree = "<group>"; };
 		A7B2FA152ED3731400C7AB95 /* HandleModeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleModeViewModel.swift; sourceTree = "<group>"; };
 		A7B2FA172ED37E2B00C7AB95 /* VerticalSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSlider.swift; sourceTree = "<group>"; };
 		A7B2FA192ED39AD800C7AB95 /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		A7CDED8F2ECD2567003FAAE5 /* Lightbulb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lightbulb.swift; sourceTree = "<group>"; };
+		DE5EA1AD2ED7BE4900EB1F84 /* ModeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeViewModel.swift; sourceTree = "<group>"; };
 		E0AE37C22B4C4373007AE4BE /* WatchAppStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchAppStoryboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0AE37CE2B4C4375007AE4BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E0AE37D12B4C4375007AE4BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -77,6 +77,11 @@
 		E0AE37EF2B4C4377007AE4BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E0AE37F12B4C4377007AE4BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		DE5EA1A92ED7AF1000EB1F84 /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
+		DE86D43C2ED9D83D00172703 /* Mode */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Mode; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		E0AE37BF2B4C4373007AE4BE /* Frameworks */ = {
@@ -119,6 +124,7 @@
 		A7B2FA112ED372AB00C7AB95 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DE86D43C2ED9D83D00172703 /* Mode */,
 				A7617AC02ED6725300AFEA23 /* HandleMode */,
 			);
 			path = View;
@@ -127,6 +133,7 @@
 		A7B2FA142ED3730B00C7AB95 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				DE5EA1AD2ED7BE4900EB1F84 /* ModeViewModel.swift */,
 				A7617ABD2ED6621300AFEA23 /* Sensor_analysis */,
 				A7B2FA152ED3731400C7AB95 /* HandleModeViewModel.swift */,
 			);
@@ -162,6 +169,7 @@
 		E0AE37C42B4C4373007AE4BE /* WatchAppStoryboard */ = {
 			isa = PBXGroup;
 			children = (
+				DE5EA1A92ED7AF1000EB1F84 /* Model */,
 				A7B2FA142ED3730B00C7AB95 /* ViewModel */,
 				A7B2FA112ED372AB00C7AB95 /* View */,
 				A7CDED8E2ECD2555003FAAE5 /* HomeKitExtension */,
@@ -184,7 +192,6 @@
 				E0AE37ED2B4C4376007AE4BE /* ComplicationController.swift */,
 				E0AE37EF2B4C4377007AE4BE /* Assets.xcassets */,
 				E0AE37F12B4C4377007AE4BE /* Info.plist */,
-				A79583F42ECA7CEE004FAFB8 /* WatchFirstScreenView.swift */,
 			);
 			path = "WatchAppStoryboard WatchKit Extension";
 			sourceTree = "<group>";
@@ -205,6 +212,10 @@
 			);
 			dependencies = (
 				E0AE37D92B4C4375007AE4BE /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				DE5EA1A92ED7AF1000EB1F84 /* Model */,
+				DE86D43C2ED9D83D00172703 /* Mode */,
 			);
 			name = WatchAppStoryboard;
 			productName = WatchAppStoryboard;
@@ -291,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A79583F32ECA7586004FAFB8 /* HomeKitView.swift in Sources */,
+				DE5EA1AE2ED7BE5000EB1F84 /* ModeViewModel.swift in Sources */,
 				A7B2FA182ED37E3000C7AB95 /* VerticalSlider.swift in Sources */,
 				A7B2FA162ED3731D00C7AB95 /* HandleModeViewModel.swift in Sources */,
 				A7B2FA132ED372C200C7AB95 /* HandleModeView.swift in Sources */,
@@ -308,7 +320,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A79583F52ECA7CEE004FAFB8 /* WatchFirstScreenView.swift in Sources */,
 				E0AE37EC2B4C4376007AE4BE /* ExtensionDelegate.swift in Sources */,
 				E0AE37EA2B4C4376007AE4BE /* WatchApp.swift in Sources */,
 				E0AE37EE2B4C4376007AE4BE /* ComplicationController.swift in Sources */,
