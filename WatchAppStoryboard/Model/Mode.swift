@@ -9,16 +9,16 @@ import Foundation
 struct Mode: Identifiable, Codable, Equatable {
     let id: UUID
     var name: String
-    var temperature: Double
-    var brightness: Double?
-    var createdAt: Date = Date()
+    var temperature: Int
+    var sound: Int
+    var luminosity: Int
     
-    init(id: UUID = UUID(), name: String, temperature: Double, brightness: Double, createdAt: Date) {
+    init(id: UUID = UUID(), name: String, temperature: Int, sound: Int, luminosity: Int) {
         self.id = id
         self.name = name
         self.temperature = temperature
-        self.brightness = brightness
-        self.createdAt = createdAt
+        self.sound = sound
+        self.luminosity = luminosity
         
     }
 }

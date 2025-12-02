@@ -3,6 +3,7 @@ import SwiftUI
 import Combine
 import AVFoundation
 import SensorKit
+import HomeKit
 
 enum LightColor: String {
     case yellow
@@ -11,26 +12,37 @@ enum LightColor: String {
 }
 
 class HandleModeViewModel: ObservableObject {
-    @Published var temp: Int
+    @Published var power: Int
+    @Published var id: UUID = UUID()
+    @Published var name: String
+    @Published var temperature: Int
     @Published var sound: Int
     @Published var luminosity: Int
     @Published var isAutoModeOn : Bool = false
     @Published var selectedColor: LightColor? = nil
+    @Published var selectedLightAccessory: HMAccessory? = nil
     var homeKitManager: HomeKitManager = HomeKitManager.shared
     
     var timerForAutoMode : Timer? = nil
     let camera = PictureAnalysis()
     var motionSensor = MotionAnalysis()
     
-    init(temp: Int, sound: Int, luminosity: Int) {
-        self.temp = temp
+    init(name: String, temperature: Int, sound: Int, luminosity: Int) {
+        self.name = name
+        self.temperature = temperature
         self.sound = sound
         self.luminosity = luminosity
-        self.callTempHomekit()
-        self.callSoundHomekit()
-        self.callLuminosityHomekit()
-        camera.onPhotoCaptured = { image in
-            self.handleNewImage(image : image)
+        self.power = 0
+
+        // ⬇️ Diffère les appels jusqu’après l'init complet
+        DispatchQueue.main.async {
+            self.callTempHomekit()
+            self.callSoundHomekit()
+            self.callLuminosityHomekit()
+
+            self.camera.onPhotoCaptured = { image in
+                self.handleNewImage(image: image)
+            }
         }
     }
     
@@ -97,16 +109,36 @@ class HandleModeViewModel: ObservableObject {
         timerForAutoMode = nil
     }
     
+    func toMode() ->Mode{
+        return Mode(
+            name: name,
+            temperature: temperature,
+            sound: sound,
+            luminosity: luminosity,
+        )
+    }
+    
     func callLuminosityHomekit() {
         print("Lum is : \(luminosity)")
+
+        guard let accessory = selectedLightAccessory else {
+            print("⚠️ No selected light accessory")
+            return
+        }
+
+        homeKitManager.setLightPower(accessory, isOn: luminosity > 0)
+        homeKitManager.setLightBrightness(accessory, brightness: luminosity)
     }
+
+
+
     
     func callSoundHomekit() {
         print("Sound is : \(sound)")
     }
     
     func callTempHomekit() {
-        print("Temp is : \(temp)")
+        print("Temp is : \(temperature)")
     }
     
     func updateColor(color : LightColor?) {

@@ -18,7 +18,7 @@ struct HomeKitView: View {
                     List {
                         Section(header: Text("Maisons")) {
                             ForEach(homeKitManager.homeManager.homes, id: \.uniqueIdentifier) { home in
-                                NavigationLink(destination: ModeListView(temperature: 12, sound: 21, luminosity: 22) ){
+                                NavigationLink(destination: ModeListView(name: "chill", temperature: 12, sound: 21, luminosity: 22) ){
                                     
                                     HStack {
                                         Label(home.name, systemImage: "house")

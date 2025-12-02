@@ -9,6 +9,7 @@ struct PhoneApp: App {
             HomeKitView()
                 .environmentObject(HomeKitManager.shared)
                 .environmentObject(modeVM)
+            
         }
     }
 }

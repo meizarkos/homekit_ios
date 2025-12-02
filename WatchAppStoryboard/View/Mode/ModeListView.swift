@@ -4,6 +4,7 @@ struct ModeListView: View {
     @EnvironmentObject var modeVM: ModeViewModel
     @State private var showEditor = false
     @State private var modeToEdit: Mode? = nil
+    var name: String
     var temperature: Int
     var sound: Int
     var luminosity: Int
@@ -39,7 +40,7 @@ struct ModeListView: View {
             .padding()
         }
         .sheet(isPresented: $showEditor) {
-            HandleModeView(temp: self.temperature, sound: self.sound, luminosity: self.luminosity)
+            HandleModeView(name: name, temperature: temperature, sound: sound, luminosity: luminosity)
         }
         .navigationTitle("Modes")
     }
