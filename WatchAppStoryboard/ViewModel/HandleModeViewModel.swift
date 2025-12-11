@@ -5,6 +5,8 @@ import AVFoundation
 import SensorKit
 import HomeKit
 
+
+
 enum LightColor: String {
     case yellow
     case blue
@@ -21,6 +23,7 @@ class HandleModeViewModel: ObservableObject {
     @Published var isAutoModeOn : Bool = false
     @Published var selectedColor: LightColor? = nil
     @Published var selectedLightAccessory: HMAccessory? = nil
+    @Published var selectedSoundAccessory: HMAccessory? = nil
     var homeKitManager: HomeKitManager = HomeKitManager.shared
     
     var timerForAutoMode : Timer? = nil
@@ -122,7 +125,7 @@ class HandleModeViewModel: ObservableObject {
         print("Lum is : \(luminosity)")
 
         guard let accessory = selectedLightAccessory else {
-            print("⚠️ No selected light accessory")
+            print("No selected light accessory")
             return
         }
 
@@ -135,6 +138,12 @@ class HandleModeViewModel: ObservableObject {
     
     func callSoundHomekit() {
         print("Sound is : \(sound)")
+        
+        guard let accessory = selectedSoundAccessory else{
+            print("No selected sound accessory")
+            return
+        }
+        homeKitManager.setLightPower(accessory, isOn: sound > 0)
     }
     
     func callTempHomekit() {

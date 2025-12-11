@@ -2,136 +2,131 @@ import SwiftUI
 import HomeKit
 
 struct HomeKitView: View {
-    @EnvironmentObject private var homeKitManager: HomeKitManager
+    @ObservedObject var homeKitManager = HomeKitManager.shared
     @State private var newHomeName: String = ""
-    @State private var selectedHome: HMHome?
+    @State private var showingDeleteAlert = false
+    @State private var accessoryToDelete: (HMAccessory, HMHome)?
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                
-                // --- Homes LIST ---
-                if homeKitManager.homeManager.homes.isEmpty {
-                    Text("Aucune maison configurée.")
-                        .foregroundColor(.secondary)
-                } else {
-                    List {
-                        Section(header: Text("Maisons")) {
-                            ForEach(homeKitManager.homeManager.homes, id: \.uniqueIdentifier) { home in
-                                NavigationLink(destination: ModeListView(name: "chill", temperature: 12, sound: 21, luminosity: 22) ){
-                                    
-                                    HStack {
-                                        Label(home.name, systemImage: "house")
-                                        Spacer()
-                                        Text("\(home.accessories.count)")
-                                            .foregroundColor(.gray)
-                                            .font(.caption)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .frame(maxHeight: 200)
-                }
-
-                Divider()
-
-                // --- NOUVEAU : Accessoires de la maison sélectionnée ---
-                if let home = selectedHome {
-                    List {
-                        Section(header: Text("Accessoires de \(home.name)")) {
-                            if home.accessories.isEmpty {
-                                Text("Aucun accessoire dans cette maison")
-                                    .foregroundColor(.secondary)
-                            } else {
-                                ForEach(home.accessories, id: \.uniqueIdentifier) { accessory in
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text(accessory.name)
-                                                .font(.headline)
-                                            Text(accessory.room?.name ?? "Aucune pièce")
-                                                .font(.caption)
-                                                .foregroundColor(.gray)
-                                        }
-                                        
-                                        Spacer()
-                                        
-                                        if !accessory.isReachable {
-                                            Text("Hors ligne")
-                                                .font(.caption)
-                                                .foregroundColor(.red)
-                                        } else {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .foregroundColor(.green)
-                                        }
-                                    }
-                                    .padding(.vertical, 4)
-                                }
-                            }
-                        }
-                    }
-                    .frame(maxHeight: 250)
-                }
-
-                Divider()
-
-                // --- Found accessories LIST ---
-                List {
-                    Section(header: Text("Nouveaux accessoires détectés")) {
-                        if homeKitManager.foundAccessories.isEmpty {
-                            Text("Aucun nouvel accessoire détecté.")
-                                .foregroundColor(.secondary)
-                        } else {
-                            ForEach(homeKitManager.foundAccessories, id: \.uniqueIdentifier) { accessory in
+            List {
+                // Section des maisons
+                if !homeKitManager.homes.isEmpty {
+                    Section(header: Text("Maisons")) {
+                        ForEach(homeKitManager.homes, id: \.uniqueIdentifier) { home in
+                            NavigationLink(destination: ModeListView(name: home.name, temperature: 12, sound: 21, luminosity: 22)) {
                                 HStack {
-                                    Text(accessory.name)
+                                    Label(home.name, systemImage: "house")
                                     Spacer()
-                                    Button("Add") {
-                                        homeKitManager.addAccessoryToHome(accessory)
+                                    if home == homeKitManager.homeManager.primaryHome {
+                                        Text("Principale")
+                                            .font(.caption)
+                                            .foregroundColor(.blue)
                                     }
-                                    .buttonStyle(.bordered)
                                 }
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button(role: .destructive) {
+                                    homeKitManager.removeHome(home)
+                                } label: {
+                                    Label("Supprimer", systemImage: "trash")
+                                }
+                            }
+                            
+                            // Accessoires
+                            ForEach(home.accessories, id: \.uniqueIdentifier) { accessory in
+                                HStack {
+                                    Image(systemName: "lightbulb.fill")
+                                        .foregroundColor(.yellow)
+                                    Text(accessory.name)
+                                        .font(.subheadline)
+                                    Spacer()
+                                    Button(role: .destructive) {
+                                        accessoryToDelete = (accessory, home)
+                                        showingDeleteAlert = true
+                                    } label: {
+                                        Image(systemName: "minus.circle")
+                                            .foregroundColor(.red)
+                                    }
+                                }
+                                .padding(.leading)
+                            }
+                        }
+                    }
+                } else {
+                    Section {
+                        Text("Aucune maison configurée.")
+                            .foregroundColor(.secondary)
+                    }
+                }
+                
+                // Section des accessoires trouvés
+                Section(header: HStack {
+                    Text("Accessoires trouvés (\(homeKitManager.foundAccessories.count))")
+                    Spacer()
+                    Button("🔄") {
+                        homeKitManager.refreshAll()
+                    }
+                }) {
+                    if homeKitManager.foundAccessories.isEmpty {
+                        Text("Aucun accessoire détecté.")
+                            .foregroundColor(.secondary)
+                    } else {
+                        ForEach(homeKitManager.foundAccessories, id: \.uniqueIdentifier) { accessory in
+                            HStack {
+                                Text(accessory.name)
+                                Spacer()
+                                Button("Ajouter") {
+                                    homeKitManager.addAccessoryToHome(accessory)
+                                }
+                                .buttonStyle(.bordered)
                             }
                         }
                     }
                 }
                 
-                Divider()
-
-                HStack {
-                    Button("Start scanning") {
-                        homeKitManager.startScanning()
+                // Section des boutons et champ de texte
+                Section {
+                    HStack {
+                        Button("🔍 Scanner") {
+                            homeKitManager.startScanning()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        
+                        Button("🛑 Arrêter") {
+                            homeKitManager.stopScanning()
+                        }
+                        .buttonStyle(.bordered)
+                        
+                        Button("🔄 Rafraîchir") {
+                            homeKitManager.refreshAll()
+                        }
+                        .buttonStyle(.bordered)
                     }
-                    .buttonStyle(.borderedProminent)
                     
-                    Button("Stop") {
-                        homeKitManager.stopScanning()
-                    }
-                    .buttonStyle(.bordered)
-                }
-
-                // --- Add home ---
-                HStack {
-                    TextField("Nom de la maison", text: $newHomeName)
-                        .textFieldStyle(.roundedBorder)
-                    
-                    Button("Ajouter") {
-                        if !newHomeName.isEmpty {
-                            homeKitManager.addHome(named: newHomeName)
-                            newHomeName = ""
+                    HStack {
+                        TextField("Nom de la maison", text: $newHomeName)
+                        
+                        Button("Ajouter maison") {
+                            if !newHomeName.isEmpty {
+                                homeKitManager.addHome(named: newHomeName)
+                                newHomeName = ""
+                            }
                         }
                     }
                 }
-                .padding(.horizontal)
-                
-                Spacer()
             }
             .navigationTitle("HomeKit Scanner")
-            .onAppear {
-                // Sélectionner automatiquement la première maison au démarrage
-                if let firstHome = homeKitManager.homeManager.homes.first {
-                    selectedHome = firstHome
-                    homeKitManager.printAccessoriesFromHome(firstHome)
+            .alert("Supprimer l'accessoire ?", isPresented: $showingDeleteAlert) {
+                Button("Annuler", role: .cancel) { }
+                Button("Supprimer", role: .destructive) {
+                    if let (accessory, home) = accessoryToDelete {
+                        homeKitManager.removeAccessory(accessory, from: home)
+                    }
+                }
+            } message: {
+                if let (accessory, _) = accessoryToDelete {
+                    Text("Voulez-vous vraiment supprimer \(accessory.name) ?")
                 }
             }
         }

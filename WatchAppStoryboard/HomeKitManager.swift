@@ -7,6 +7,8 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
     var homeManager: HMHomeManager!
     var browser = HMAccessoryBrowser()
     @Published var foundAccessories: [HMAccessory] = []
+    @Published var assignedAccessories: [HMAccessory] = []
+    @Published var homes: [HMHome] = []
     
     override init() {
         super.init()
@@ -14,6 +16,29 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         manager.delegate = self
         self.homeManager = manager
         self.browser.delegate = self
+    }
+    
+    func refreshAll() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.homes = self.homeManager.homes
+            self.refreshAssignedAccessories()
+            print("Full refresh completed")
+        }
+    }
+    
+    func refreshAssignedAccessories() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            var allAccessories: [HMAccessory] = []
+            
+            for home in self.homeManager.homes {
+                allAccessories.append(contentsOf: home.accessories)
+            }
+            
+            self.assignedAccessories = allAccessories
+            print("Assigned accessories refreshed: \(allAccessories.count)")
+        }
     }
     
     public func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
@@ -29,7 +54,7 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         }
     }
     
-    // FONCTION CORRIGÉE : Afficher les accessoires d'une maison spécifique
+
     func printAccessoriesFromHome(_ home: HMHome) {
         print("\n=== Accessoires de \(home.name) ===")
         print("Nombre total: \(home.accessories.count)")
@@ -98,6 +123,17 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         }
     }
     
+    func removeHome(_ home: HMHome) {
+        homeManager.removeHome(home) { [weak self] error in
+            if let error {
+                print("Failed to remove home: \(error.localizedDescription)")
+            } else {
+                print("Successfully removed home: \(home.name)")
+                self?.refreshAll()
+            }
+        }
+    }
+    
     func addAccessoryToHome(_ accessory: HMAccessory) {
         guard let home = homeManager.primaryHome ?? homeManager.homes.first else {
             print("No home available")
@@ -114,7 +150,18 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         }
     }
     
-    // NOUVELLE FONCTION : Contrôler un accessoire
+    func removeAccessory(_ accessory: HMAccessory, from home: HMHome) {
+        home.removeAccessory(accessory) { [weak self] error in
+            if let error {
+                print("Failed to remove accessory: \(error.localizedDescription)")
+            } else {
+                print("Successfully removed accessory: \(accessory.name)")
+                self?.refreshAll()
+            }
+        }
+    }
+    
+
     func controlAccessory(_ accessory: HMAccessory, turnOn: Bool) {
         accessory.services.forEach { service in
             service.characteristics.forEach { characteristic in
@@ -130,6 +177,7 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
             }
         }
     }
+    
     func setLightPower(_ accessory: HMAccessory, isOn: Bool) {
         for service in accessory.services {
             for characteristic in service.characteristics {
@@ -159,6 +207,24 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
                             print(" Failed to set brightness: \(error.localizedDescription)")
                         } else {
                             print(" Brightness set to \(value)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func setSoundVolume(_ accessory: HMAccessory, volume: Int) {
+        let value = max(0, min(volume, 100))
+        
+        for service in accessory.services {
+            for characteristic in service.characteristics {
+                
+                if characteristic.characteristicType == HMCharacteristicTypeVolume {
+                    characteristic.writeValue(value) { error in
+                        if let error = error{
+                            print("Failed to set volume: \(error.localizedDescription)")
+                            
                         }
                     }
                 }
