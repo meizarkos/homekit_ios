@@ -20,8 +20,15 @@ struct ModeListView: View {
                         HStack {
                             Text(mode.name)
                             Spacer()
-                            Text("\(Int(mode.temperature))°")
-                                .foregroundColor(.gray)
+                            HStack(spacing: 15) {
+                                Label("\(mode.temperature)°", systemImage: "thermometer")
+                                    .font(.caption)
+                                Label("\(mode.sound)%", systemImage: "speaker.wave.2")
+                                    .font(.caption)
+                                Label("\(mode.luminosity)%", systemImage: "sun.max")
+                                    .font(.caption)
+                            }
+                            .foregroundColor(.gray)
                         }
                     }
                 }
@@ -40,8 +47,14 @@ struct ModeListView: View {
             .padding()
         }
         .sheet(isPresented: $showEditor) {
-            HandleModeView(name: name, temperature: temperature, sound: sound, luminosity: luminosity)
+            if let mode = modeToEdit {
+                // Modifier un mode existant
+                HandleModeView(mode: mode, homeName: name)
+            } else {
+                // Créer un nouveau mode
+                HandleModeView(name: name, temperature: temperature, sound: sound, luminosity: luminosity, homeName: name)
+            }
         }
-        .navigationTitle("Modes")
+        .navigationTitle("Modes - \(name)")
     }
 }
