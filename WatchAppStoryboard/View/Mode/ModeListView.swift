@@ -13,27 +13,38 @@ struct ModeListView: View {
         VStack {
             List {
                 ForEach(modeVM.modes) { mode in
-                    Button {
-                        modeToEdit = mode
-                        showEditor = true
-                    } label: {
-                        HStack {
-                            Text(mode.name)
-                            Spacer()
-                            HStack(spacing: 15) {
-                                Label("\(mode.temperature)°", systemImage: "thermometer")
-                                    .font(.caption)
-                                Label("\(mode.sound)%", systemImage: "speaker.wave.2")
-                                    .font(.caption)
-                                Label("\(mode.luminosity)%", systemImage: "sun.max")
-                                    .font(.caption)
+                    HStack {
+                        // Bouton pour éditer le mode
+                        Button {
+                            modeToEdit = mode
+                            showEditor = true
+                        } label: {
+                            HStack {
+                                Text(mode.name)
+                                Spacer()
+                                HStack(spacing: 15) {
+                                    Label("\(mode.temperature)°", systemImage: "thermometer")
+                                        .font(.caption)
+                                    Label("\(mode.sound)%", systemImage: "speaker.wave.2")
+                                        .font(.caption)
+                                    Label("\(mode.luminosity)%", systemImage: "sun.max")
+                                        .font(.caption)
+                                }
+                                .foregroundColor(.gray)
                             }
-                            .foregroundColor(.gray)
                         }
+
+                        // Bouton supprimer
+                        Button {
+                            if let index = modeVM.modes.firstIndex(where: { $0.id == mode.id }) {
+                                modeVM.deleteMode(at: IndexSet(integer: index))
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                        }
+                        .buttonStyle(BorderlessButtonStyle()) // Important pour que le bouton fonctionne dans une List
                     }
-                }
-                .onDelete { indexSet in
-                    modeVM.deleteMode(at: indexSet)
                 }
             }
 
