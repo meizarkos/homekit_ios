@@ -43,7 +43,7 @@ struct ModeListView: View {
                             Image(systemName: "trash")
                                 .foregroundColor(.red)
                         }
-                        .buttonStyle(BorderlessButtonStyle()) // Important pour que le bouton fonctionne dans une List
+                        .buttonStyle(BorderlessButtonStyle()) 
                     }
                 }
             }
