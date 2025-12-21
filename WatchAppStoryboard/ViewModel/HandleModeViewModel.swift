@@ -23,6 +23,7 @@ class HandleModeViewModel: ObservableObject {
     @Published var selectedTemp: HMAccessory? = nil
     @Published var selectedLightAccessory: HMAccessory? = nil
     @Published var selectedSoundAccessory: HMAccessory? = nil
+    
     var homeKitManager: HomeKitManager = HomeKitManager.shared
     
     var timerForAutoMode : Timer? = nil
@@ -38,7 +39,6 @@ class HandleModeViewModel: ObservableObject {
         self.luminosity = luminosity
         self.power = 0
         self.homeName = homeName
-
         // Sélection automatique du premier accessoire disponible
         DispatchQueue.main.async {
             self.autoSelectAccessories()

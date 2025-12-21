@@ -61,9 +61,11 @@ struct ModeListView: View {
             if let mode = modeToEdit {
                 // Modifier un mode existant
                 HandleModeView(mode: mode, homeName: name)
+                    .environmentObject(modeVM)
             } else {
                 // Créer un nouveau mode
                 HandleModeView(name: name, temperature: temperature, sound: sound, luminosity: luminosity, homeName: name)
+                    .environmentObject(modeVM)
             }
         }
         .navigationTitle("Modes - \(name)")
