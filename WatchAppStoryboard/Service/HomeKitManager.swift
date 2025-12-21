@@ -54,7 +54,7 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         }
     }
     
-
+    
     func printAccessoriesFromHome(_ home: HMHome) {
         print("\n=== Accessoires de \(home.name) ===")
         print("Nombre total: \(home.accessories.count)")
@@ -161,7 +161,7 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         }
     }
     
-
+    
     func controlAccessory(_ accessory: HMAccessory, turnOn: Bool) {
         accessory.services.forEach { service in
             service.characteristics.forEach { characteristic in
@@ -178,22 +178,22 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         }
     }
     
-    func setLightPower(_ accessory: HMAccessory, isOn: Bool) {
-        for service in accessory.services {
-            for characteristic in service.characteristics {
-                
-                if characteristic.characteristicType == HMCharacteristicTypePowerState {
-                    characteristic.writeValue(isOn) { error in
-                        if let error = error {
-                            print(" Failed to set power: \(error.localizedDescription)")
-                        } else {
-                            print(" Light power set to \(isOn ? "ON" : "OFF")")
-                        }
-                    }
-                }
-            }
-        }
-    }
+    //    func setLightPower(_ accessory: HMAccessory, isOn: Bool) {
+    //        for service in accessory.services {
+    //            for characteristic in service.characteristics {
+    //
+    //                if characteristic.characteristicType == HMCharacteristicTypePowerState {
+    //                    characteristic.writeValue(isOn) { error in
+    //                        if let error = error {
+    //                            print(" Failed to set power: \(error.localizedDescription)")
+    //                        } else {
+    //                            print(" Light power set to \(isOn ? "ON" : "OFF")")
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
     
     func setLightBrightness(_ accessory: HMAccessory, brightness: Int) {
         let value = max(0, min(brightness, 100)) // Clamp entre 0 et 100
@@ -213,20 +213,27 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
             }
         }
     }
-    
-    func setSoundVolume(_ accessory: HMAccessory, volume: Int) {
-        let value = max(0, min(volume, 100))
-        
+    func setLightColor(
+        _ accessory: HMAccessory,
+        hue: Double
+    ) {
         for service in accessory.services {
+            guard service.serviceType == HMServiceTypeLightbulb else { continue }
+            
             for characteristic in service.characteristics {
-                
-                if characteristic.characteristicType == HMCharacteristicTypeVolume {
-                    characteristic.writeValue(value) { error in
-                        if let error = error{
-                            print("Failed to set volume: \(error.localizedDescription)")
-                            
+                switch characteristic.characteristicType {
+                    
+                case HMCharacteristicTypeHue:
+                    characteristic.writeValue(hue){
+                        error in
+                        if let error = error {
+                            print(" Failed to set hue: \(error.localizedDescription)")
+                        } else {
+                            print(" Hue set to \(hue)")
                         }
                     }
+                default:
+                    break
                 }
             }
         }

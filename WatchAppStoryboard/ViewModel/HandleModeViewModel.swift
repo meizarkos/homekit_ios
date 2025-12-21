@@ -23,6 +23,7 @@ class HandleModeViewModel: ObservableObject {
     @Published var selectedTemp: HMAccessory? = nil
     @Published var selectedLightAccessory: HMAccessory? = nil
     @Published var selectedSoundAccessory: HMAccessory? = nil
+    @Published var hue: Double = 0
     
     var homeKitManager: HomeKitManager = HomeKitManager.shared
     
@@ -155,8 +156,15 @@ class HandleModeViewModel: ObservableObject {
         }
 
         print(" Applying to: \(accessory.name)")
-        homeKitManager.setLightPower(accessory, isOn: luminosity > 0)
+        //homeKitManager.setLightPower(accessory, isOn: luminosity > 0)
         homeKitManager.setLightBrightness(accessory, brightness: luminosity)
+    }
+    
+    func updateColor() {
+        guard
+            let accessory = selectedLightAccessory
+        else { return }
+        homeKitManager.setLightColor(accessory, hue: self.hue)
     }
     
     func callSoundHomekit() {
@@ -210,24 +218,5 @@ class HandleModeViewModel: ObservableObject {
                 }
             }
         }
-    }
-    
-    func updateColor(color : LightColor?) {
-        guard let color = color else {
-            print("Color is nil")
-            return
-        }
-
-        print(" Color selected: \(color.rawValue)")
-        
-        // TODO: Implémenter le changement de couleur si vos lumières supportent les couleurs
-        guard let accessory = selectedLightAccessory else {
-            print("⚠️ No light accessory selected")
-            return
-        }
-        
-        // Logique pour changer la couleur de la lumière
-        // Cela dépend des caractéristiques disponibles (Hue, Saturation, etc.)
-        
     }
 }

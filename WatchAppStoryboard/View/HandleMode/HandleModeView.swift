@@ -90,19 +90,27 @@ struct HandleModeView : View {
                 .frame(maxWidth: .infinity, alignment: .center)
                 
                 HStack(spacing : 30) {
-                    ColorCircleButton(
-                        colorEnum: LightColor.yellow, selectedColor: $handleModeViewModel.selectedColor,
-                        changeColorFunction: handleModeViewModel.updateColor
+                    //                    ColorCircleButton(
+                    //                        colorEnum: LightColor.yellow, selectedColor: $handleModeViewModel.selectedColor,
+                    //                        changeColorFunction: handleModeViewModel.updateColor
+                    //                    )
+                    //                    ColorCircleButton(
+                    //                        colorEnum: LightColor.blue, selectedColor: $handleModeViewModel.selectedColor,
+                    //                        changeColorFunction: handleModeViewModel.updateColor
+                    //                    )
+                    //                    ColorCircleButton(
+                    //                        colorEnum: LightColor.red, selectedColor: $handleModeViewModel.selectedColor,
+                    //                        changeColorFunction: handleModeViewModel.updateColor
+                    //                    )
+                    Text("Couleur")
+                        .foregroundColor(Color.white)
+                    Slider(value: $handleModeViewModel.hue, in: 0...360, step: 1, onEditingChanged: { _ in
+                        handleModeViewModel.updateColor()
+                    }
                     )
-                    ColorCircleButton(
-                        colorEnum: LightColor.blue, selectedColor: $handleModeViewModel.selectedColor,
-                        changeColorFunction: handleModeViewModel.updateColor
-                    )
-                    ColorCircleButton(
-                        colorEnum: LightColor.red, selectedColor: $handleModeViewModel.selectedColor,
-                        changeColorFunction: handleModeViewModel.updateColor
-                    )
+                    
                 }
+                .accentColor(Color(hue: handleModeViewModel.hue/360, saturation: 1, brightness: 1))
                 .padding(.leading, 20)
                 .frame(maxWidth: .infinity, alignment: .center)
                 
