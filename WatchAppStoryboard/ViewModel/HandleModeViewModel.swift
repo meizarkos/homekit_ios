@@ -168,7 +168,21 @@ class HandleModeViewModel: ObservableObject {
         }
         
         print("Applying to: \(accessory.name)")
-//        homeKitManager.setSoundVolume(accessory, volume: sound)
+        for service in accessory.services{
+            if service.serviceType == HMServiceTypeSpeaker {
+                for characteristic in service.characteristics {
+                    if characteristic.characteristicType == HMCharacteristicTypeVolume {
+                        characteristic.writeValue(Float(sound)) { error in
+                            if let error = error {
+                                print("Error writing volume: \(error)")
+                            }else{
+                                print("Target volume uploaded")
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func callTempHomekit() {
