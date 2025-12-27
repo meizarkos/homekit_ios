@@ -4,32 +4,38 @@ import HomeKit
 struct HandleModeView : View {
     @StateObject var handleModeViewModel: HandleModeViewModel
     @State private var showCameraDeniedAlert = false
+    @State private var showAccessorySelector = false
     @EnvironmentObject private var modeVM: ModeViewModel
     @Environment(\.dismiss) private var dismiss
     
-    let editingMode: Mode? 
+    let editingMode: Mode?
+    let homeName: String
     
     // Création d'un nouveau mode
-    init(name: String, temperature: Int, sound: Int, luminosity: Int) {
+    init(name: String, temperature: Int, sound: Int, luminosity: Int, homeName: String) {
+        self.homeName = homeName
         _handleModeViewModel = StateObject(
             wrappedValue: HandleModeViewModel(
                 name: name,
                 temperature: temperature,
                 sound: sound,
-                luminosity: luminosity
+                luminosity: luminosity,
+                homeName: homeName
             )
         )
         self.editingMode = nil
     }
     
     // Modification d'un mode existant
-    init(mode: Mode) {
+    init(mode: Mode, homeName: String) {
+        self.homeName = homeName
         _handleModeViewModel = StateObject(
             wrappedValue: HandleModeViewModel(
                 name: mode.name,
                 temperature: mode.temperature,
                 sound: mode.sound,
-                luminosity: mode.luminosity
+                luminosity: mode.luminosity,
+                homeName: homeName
             )
         )
         self.editingMode = mode
@@ -38,6 +44,29 @@ struct HandleModeView : View {
     var body: some View {
         NavigationView {
             VStack(spacing: 40) {
+                // Sélecteur d'accessoires
+                Button(action: {
+                    showAccessorySelector = true
+                }) {
+                    HStack {
+                        Image(systemName: "lightbulb.circle.fill")
+                        VStack(alignment: .leading) {
+                            Text("Accessoires sélectionnés")
+                                .font(.headline)
+                            Text("Lumière: \(handleModeViewModel.selectedLightAccessory?.name ?? "Aucune")")
+                                .font(.caption)
+                            Text("Son: \(handleModeViewModel.selectedSoundAccessory?.name ?? "Aucun")")
+                                .font(.caption)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(12)
+                }
+                .padding(.horizontal, 20)
+                
                 HStack(spacing: 25) {
                     VerticalSlider(
                         handleModeViewModel : handleModeViewModel,
@@ -58,23 +87,30 @@ struct HandleModeView : View {
                     )
                 }
                 .padding(.leading, 20)
-                .padding(.top,20)
                 .frame(maxWidth: .infinity, alignment: .center)
                 
                 HStack(spacing : 30) {
-                    ColorCircleButton(
-                        colorEnum: LightColor.yellow, selectedColor: $handleModeViewModel.selectedColor,
-                        changeColorFunction: handleModeViewModel.updateColor
+                    //                    ColorCircleButton(
+                    //                        colorEnum: LightColor.yellow, selectedColor: $handleModeViewModel.selectedColor,
+                    //                        changeColorFunction: handleModeViewModel.updateColor
+                    //                    )
+                    //                    ColorCircleButton(
+                    //                        colorEnum: LightColor.blue, selectedColor: $handleModeViewModel.selectedColor,
+                    //                        changeColorFunction: handleModeViewModel.updateColor
+                    //                    )
+                    //                    ColorCircleButton(
+                    //                        colorEnum: LightColor.red, selectedColor: $handleModeViewModel.selectedColor,
+                    //                        changeColorFunction: handleModeViewModel.updateColor
+                    //                    )
+                    Text("Couleur")
+                        .foregroundColor(Color.white)
+                    Slider(value: $handleModeViewModel.hue, in: 0...360, step: 1, onEditingChanged: { _ in
+                        handleModeViewModel.updateColor()
+                    }
                     )
-                    ColorCircleButton(
-                        colorEnum: LightColor.blue, selectedColor: $handleModeViewModel.selectedColor,
-                        changeColorFunction: handleModeViewModel.updateColor
-                    )
-                    ColorCircleButton(
-                        colorEnum: LightColor.red, selectedColor: $handleModeViewModel.selectedColor,
-                        changeColorFunction: handleModeViewModel.updateColor
-                    )
+                    
                 }
+                .accentColor(Color(hue: handleModeViewModel.hue/360, saturation: 1, brightness: 1))
                 .padding(.leading, 20)
                 .frame(maxWidth: .infinity, alignment: .center)
                 
@@ -145,16 +181,18 @@ struct HandleModeView : View {
             .background(Color.black)
             .navigationTitle(editingMode == nil ? "Nouveau Mode" : "Modifier Mode")
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showAccessorySelector) {
+                AccessorySelectorView(viewModel: handleModeViewModel, homeName: homeName)
+            }
         }
     }
     
     private func saveMode(){
         guard !handleModeViewModel.name.isEmpty else {
-            return // Validation basique
+            return
         }
         
         if let existingMode = editingMode {
-            //  MODIFICATION
             var updatedMode = existingMode
             updatedMode.name = handleModeViewModel.name
             updatedMode.temperature = handleModeViewModel.temperature
@@ -163,7 +201,6 @@ struct HandleModeView : View {
             
             modeVM.updateModes(updatedMode)
         } else {
-            //  CRÉATION
             let newMode = Mode(
                 name: handleModeViewModel.name,
                 temperature: handleModeViewModel.temperature,
@@ -174,5 +211,83 @@ struct HandleModeView : View {
         }
         
         dismiss()
+    }
+}
+
+// Nouvelle vue pour sélectionner les accessoires
+struct AccessorySelectorView: View {
+    @ObservedObject var viewModel: HandleModeViewModel
+    @Environment(\.dismiss) private var dismiss
+    let homeName: String
+    
+    var currentHome: HMHome? {
+        HomeKitManager.shared.homeManager.homes.first { $0.name == homeName }
+    }
+    
+    var body: some View {
+        NavigationView {
+            List {
+                Section(header: Text("Accessoire Lumière")) {
+                    if let home = currentHome, !home.accessories.isEmpty {
+                        ForEach(home.accessories, id: \.uniqueIdentifier) { accessory in
+                            Button(action: {
+                                viewModel.selectedLightAccessory = accessory
+                                // Appliquer immédiatement la luminosité actuelle
+                                viewModel.callLuminosityHomekit()
+                            }) {
+                                HStack {
+                                    Image(systemName: "lightbulb.fill")
+                                        .foregroundColor(.yellow)
+                                    Text(accessory.name)
+                                    Spacer()
+                                    if viewModel.selectedLightAccessory?.uniqueIdentifier == accessory.uniqueIdentifier {
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(.blue)
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        Text("Aucun accessoire disponible")
+                            .foregroundColor(.secondary)
+                    }
+                }
+                
+                Section(header: Text("Accessoire Son")) {
+                    if let home = currentHome, !home.accessories.isEmpty {
+                        ForEach(home.accessories, id: \.uniqueIdentifier) { accessory in
+                            Button(action: {
+                                viewModel.selectedSoundAccessory = accessory
+                                // Appliquer immédiatement le volume actuel
+                                viewModel.callSoundHomekit()
+                            }) {
+                                HStack {
+                                    Image(systemName: "speaker.wave.2.fill")
+                                        .foregroundColor(.blue)
+                                    Text(accessory.name)
+                                    Spacer()
+                                    if viewModel.selectedSoundAccessory?.uniqueIdentifier == accessory.uniqueIdentifier {
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(.blue)
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        Text("Aucun accessoire disponible")
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+            .navigationTitle("Sélectionner accessoires")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Terminé") {
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
 }
