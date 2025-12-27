@@ -12,14 +12,22 @@ struct Mode: Identifiable, Codable, Equatable {
     var temperature: Int
     var sound: Int
     var luminosity: Int
-    
-    init(id: UUID = UUID(), name: String, temperature: Int, sound: Int, luminosity: Int) {
+
+    var lightAccessoryIds: [UUID]
+
+    init(
+        id: UUID = UUID(),
+        name: String,
+        temperature: Int,
+        sound: Int,
+        luminosity: Int,
+        lightAccessoryIds: [UUID] = []
+    ) {
         self.id = id
         self.name = name
         self.temperature = temperature
         self.sound = sound
         self.luminosity = luminosity
-        
+        self.lightAccessoryIds = lightAccessoryIds
     }
 }
-

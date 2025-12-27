@@ -5,11 +5,11 @@ struct HomeKitView: View {
     @EnvironmentObject private var homeKitManager: HomeKitManager
     @State private var newHomeName: String = ""
     @State private var selectedHome: HMHome?
-    
+
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                
+
                 // --- Homes LIST ---
                 if homeKitManager.homeManager.homes.isEmpty {
                     Text("Aucune maison configurée.")
@@ -18,8 +18,14 @@ struct HomeKitView: View {
                     List {
                         Section(header: Text("Maisons")) {
                             ForEach(homeKitManager.homeManager.homes, id: \.uniqueIdentifier) { home in
-                                NavigationLink(destination: ModeListView(name: "chill", temperature: 12, sound: 21, luminosity: 22) ){
-                                    
+                                NavigationLink(
+                                    destination: ModeListView(
+                                        name: "chill",
+                                        temperature: 12,
+                                        sound: 21,
+                                        luminosity: 22
+                                    )
+                                ) {
                                     HStack {
                                         Label(home.name, systemImage: "house")
                                         Spacer()
@@ -28,6 +34,10 @@ struct HomeKitView: View {
                                             .font(.caption)
                                     }
                                 }
+                                .simultaneousGesture(TapGesture().onEnded {
+                                    selectedHome = home
+                                    homeKitManager.printAccessoriesFromHome(home)
+                                })
                             }
                         }
                     }
@@ -36,7 +46,7 @@ struct HomeKitView: View {
 
                 Divider()
 
-                // --- NOUVEAU : Accessoires de la maison sélectionnée ---
+                // --- Accessoires de la maison sélectionnée ---
                 if let home = selectedHome {
                     List {
                         Section(header: Text("Accessoires de \(home.name)")) {
@@ -45,27 +55,45 @@ struct HomeKitView: View {
                                     .foregroundColor(.secondary)
                             } else {
                                 ForEach(home.accessories, id: \.uniqueIdentifier) { accessory in
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text(accessory.name)
-                                                .font(.headline)
-                                            Text(accessory.room?.name ?? "Aucune pièce")
-                                                .font(.caption)
-                                                .foregroundColor(.gray)
+
+                                    Button {
+                                        let isLight = accessory.services.contains {
+                                            $0.serviceType == HMServiceTypeLightbulb
                                         }
-                                        
-                                        Spacer()
-                                        
-                                        if !accessory.isReachable {
-                                            Text("Hors ligne")
-                                                .font(.caption)
-                                                .foregroundColor(.red)
+
+                                        if isLight {
+                                            homeKitManager.selectedLightAccessory = accessory
+                                            print("✅ Selected light: \(accessory.name)")
                                         } else {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .foregroundColor(.green)
+                                            print("ℹ️ Not a lightbulb: \(accessory.name)")
                                         }
+                                    } label: {
+                                        HStack {
+                                            VStack(alignment: .leading) {
+                                                Text(accessory.name)
+                                                    .font(.headline)
+                                                Text(accessory.room?.name ?? "Aucune pièce")
+                                                    .font(.caption)
+                                                    .foregroundColor(.gray)
+                                            }
+
+                                            Spacer()
+
+                                            if homeKitManager.selectedLightAccessory?.uniqueIdentifier == accessory.uniqueIdentifier {
+                                                Image(systemName: "lightbulb.fill")
+                                                    .foregroundColor(.yellow)
+                                            } else if !accessory.isReachable {
+                                                Text("Hors ligne")
+                                                    .font(.caption)
+                                                    .foregroundColor(.red)
+                                            } else {
+                                                Image(systemName: "circle")
+                                                    .foregroundColor(.green)
+                                            }
+                                        }
+                                        .padding(.vertical, 4)
                                     }
-                                    .padding(.vertical, 4)
+                                    .buttonStyle(.plain)
                                 }
                             }
                         }
@@ -95,7 +123,7 @@ struct HomeKitView: View {
                         }
                     }
                 }
-                
+
                 Divider()
 
                 HStack {
@@ -103,7 +131,7 @@ struct HomeKitView: View {
                         homeKitManager.startScanning()
                     }
                     .buttonStyle(.borderedProminent)
-                    
+
                     Button("Stop") {
                         homeKitManager.stopScanning()
                     }
@@ -114,7 +142,7 @@ struct HomeKitView: View {
                 HStack {
                     TextField("Nom de la maison", text: $newHomeName)
                         .textFieldStyle(.roundedBorder)
-                    
+
                     Button("Ajouter") {
                         if !newHomeName.isEmpty {
                             homeKitManager.addHome(named: newHomeName)
@@ -123,15 +151,22 @@ struct HomeKitView: View {
                     }
                 }
                 .padding(.horizontal)
-                
+
                 Spacer()
             }
             .navigationTitle("HomeKit Scanner")
             .onAppear {
-                // Sélectionner automatiquement la première maison au démarrage
                 if let firstHome = homeKitManager.homeManager.homes.first {
                     selectedHome = firstHome
                     homeKitManager.printAccessoriesFromHome(firstHome)
+
+                    let lights = firstHome.accessories.filter { accessory in
+                        accessory.services.contains { $0.serviceType == HMServiceTypeLightbulb }
+                    }
+                    if homeKitManager.selectedLightAccessory == nil {
+                        homeKitManager.selectedLightAccessory = lights.first
+                        print(" Auto-selected light: \(lights.first?.name ?? "none")")
+                    }
                 }
             }
         }
