@@ -9,6 +9,12 @@ struct PhoneApp: App {
             HomeKitView()
                 .environmentObject(HomeKitManager.shared)
                 .environmentObject(modeVM)
+                .onAppear {
+                                    WatchBridge.shared.bind(
+                                        modeVM: modeVM,
+                                        handleVMProvider: { ActiveHandleModeHolder.shared.current }
+                                    )
+                                }
             
         }
     }

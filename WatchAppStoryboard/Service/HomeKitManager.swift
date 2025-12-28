@@ -27,6 +27,13 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         }
     }
     
+    func getAllLightsFromHome() -> [HMAccessory] {
+            guard let home = currentHome() else { return [] }
+            return home.accessories.filter { accessory in
+                accessory.services.contains { $0.serviceType == HMServiceTypeLightbulb }
+            }
+        }
+    
     func refreshAssignedAccessories() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -178,22 +185,30 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         }
     }
     
-    //    func setLightPower(_ accessory: HMAccessory, isOn: Bool) {
-    //        for service in accessory.services {
-    //            for characteristic in service.characteristics {
-    //
-    //                if characteristic.characteristicType == HMCharacteristicTypePowerState {
-    //                    characteristic.writeValue(isOn) { error in
-    //                        if let error = error {
-    //                            print(" Failed to set power: \(error.localizedDescription)")
-    //                        } else {
-    //                            print(" Light power set to \(isOn ? "ON" : "OFF")")
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
+   
+    func setLightPower(_ accessory: HMAccessory, isOn: Bool) {
+            for service in accessory.services {
+                for characteristic in service.characteristics {
+                    if characteristic.characteristicType == HMCharacteristicTypePowerState {
+                        characteristic.writeValue(isOn) { error in
+                            if let error = error {
+                                print(" Failed to set power: \(error.localizedDescription)")
+                            } else {
+                                print(" Light power set to \(isOn ? "ON" : "OFF") (\(accessory.name))")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    func currentHome() -> HMHome? {
+           homeManager.primaryHome ?? homeManager.homes.first
+       }
+    
+    func getAccessoriesByIds(_ ids: [UUID]) -> [HMAccessory] {
+           guard let home = currentHome() else { return [] }
+           return home.accessories.filter { ids.contains($0.uniqueIdentifier) }
+       }
     
     func setLightBrightness(_ accessory: HMAccessory, brightness: Int) {
         let value = max(0, min(brightness, 100)) // Clamp entre 0 et 100
@@ -213,6 +228,7 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
             }
         }
     }
+    
     func setLightColor(
         _ accessory: HMAccessory,
         hue: Double
