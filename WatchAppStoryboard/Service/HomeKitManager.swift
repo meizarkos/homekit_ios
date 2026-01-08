@@ -81,12 +81,12 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
     
     func startScanning() {
         foundAccessories.removeAll()
-        print("🔍 Start scanning for new accessories...")
+        print("Start scanning for new accessories...")
         browser.startSearchingForNewAccessories()
     }
     
     func stopScanning() {
-        print("🛑 Stop scanning")
+        print("Stop scanning")
         browser.stopSearchingForNewAccessories()
     }
     
