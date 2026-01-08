@@ -15,6 +15,8 @@ struct WatchModeView: View {
     @State private var snd: Double = 0
     @State private var tmp: Double = 20
     @State private var autoEnabled: Bool = false
+    @State private var hrModeEnabled = false
+
 
     var body: some View {
         ScrollView {
@@ -79,7 +81,30 @@ struct WatchModeView: View {
                         haptic()
                         wc.send(action: WCKeys.toggleAuto, enabled: newValue)
                     }
+                    
                 }
+                
+                // --- Heart Rate Mode (card propre)
+                VStack(spacing: 8) {
+                    Toggle(isOn: $hrModeEnabled) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "heart.fill")
+                                .foregroundStyle(.red)
+                            Text("Fréquence cardiaque")
+                                .font(.headline)
+                        }
+                    }
+                    .onChange(of: hrModeEnabled) { _, newValue in
+                        haptic()
+                        wc.send(action: WCKeys.toggleHeartRateMode, enabled: newValue)
+                    }
+
+                    Text(hrModeEnabled ? "LED pilotée par la FC" : "Désactivé")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+              
+
                 .padding(12)
                 .background(.thinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))

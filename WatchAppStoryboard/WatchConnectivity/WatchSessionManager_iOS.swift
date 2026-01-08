@@ -13,12 +13,21 @@ import WatchConnectivity
 final class WatchSessionManager_iOS: NSObject, ObservableObject {
     static let shared = WatchSessionManager_iOS()
 
-    // Callbacks = branchement à ta logique iOS
     var onSelectMode: ((UUID) -> Void)?
     var onSetLuminosity: ((Int) -> Void)?
     var onSetSound: ((Int) -> Void)?
     var onSetTemperature: ((Int) -> Void)?
     var onToggleAuto: ((Bool) -> Void)?
+
+    var onToggleHeartRateMode: ((Bool) -> Void)?
+    var onHeartRateUpdate: ((Int) -> Void)?
+
+    private var heartRateModeEnabled: Bool = false
+    private var lastLedBrightness: Int? = nil
+    private var lastHrUpdateAt: Date = .distantPast
+
+    /// Active si tu veux logguer plus
+    private let debugEnabled = false
 
     private override init() {
         super.init()
@@ -31,33 +40,71 @@ final class WatchSessionManager_iOS: NSObject, ObservableObject {
         WCSession.default.activate()
     }
 
-    /// iPhone -> Watch : envoie le mode courant (à afficher sur la montre)
+    // MARK: - iPhone -> Watch : envoie le mode courant (à afficher sur la montre)
     func sendCurrentMode(_ mode: ModeDTO) {
-        guard WCSession.default.isPaired,
-              WCSession.default.isWatchAppInstalled else {
-            // En simu, ces flags peuvent être capricieux, mais on tente quand même.
-            // Tu peux commenter ce guard si besoin en test.
-            // return
-            print(" Watch not paired/installed (may be simulator). Sending anyway.")
-            breakGuardAndSend(mode)
-            return
+        let payload = WCMessageCodec.encodeModeDTO(mode)
+
+        // On tente d'envoyer même si simu / flags bizarres
+        WCSession.default.sendMessage(payload, replyHandler: nil) { error in
+            if self.debugEnabled {
+                print(" sendCurrentMode error:", error.localizedDescription)
+            }
         }
-        breakGuardAndSend(mode)
     }
 
-    private func breakGuardAndSend(_ mode: ModeDTO) {
-        let payload = WCMessageCodec.encodeModeDTO(mode)
-        WCSession.default.sendMessage(payload, replyHandler: nil) { error in
-            print(" sendCurrentMode error:", error.localizedDescription)
+    // MARK: - HR mapping (bpm -> luminosité)
+    private func brightness(for bpm: Int) -> Int {
+        switch bpm {
+        case ..<90: return 10
+        case 90..<120: return 30
+        case 120..<150: return 60
+        default: return 100
+        }
+    }
+
+    private func setLedBrightness(_ value: Int) {
+        if debugEnabled {
+            print("setLedBrightness:", value)
+        }
+    }
+
+    private func handleHeartRate(_ bpm: Int) {
+        // throttle: max 1 update / seconde
+        let now = Date()
+        if now.timeIntervalSince(lastHrUpdateAt) < 1.0 { return }
+        lastHrUpdateAt = now
+
+        let newBrightness = brightness(for: bpm)
+
+        // évite de renvoyer si inchangé
+        guard newBrightness != lastLedBrightness else { return }
+
+        setLedBrightness(newBrightness)
+        lastLedBrightness = newBrightness
+    }
+
+    /// (option) quand HR mode ON : allume direct une base
+    private func handleHeartRateMode(enabled: Bool) {
+        heartRateModeEnabled = enabled
+
+        if enabled {
+            // allume direct une luminosité "safe" avant le 1er bpm
+            setLedBrightness(30)
+            lastLedBrightness = 30
+        } else {
+            // setLedBrightness(0)
         }
     }
 }
 
+// MARK: - WCSessionDelegate
 extension WatchSessionManager_iOS: WCSessionDelegate {
     func session(_ session: WCSession,
                  activationDidCompleteWith activationState: WCSessionActivationState,
                  error: Error?) {
-        if let error { print(" WC activation error:", error.localizedDescription) }
+        if let error, debugEnabled {
+            print("WC activation error:", error.localizedDescription)
+        }
     }
 
     func sessionDidBecomeInactive(_ session: WCSession) {}
@@ -96,6 +143,22 @@ extension WatchSessionManager_iOS: WCSessionDelegate {
                 if let enabled = message[WCKeys.enabled] as? Bool {
                     self.onToggleAuto?(enabled)
                 }
+
+            case WCKeys.toggleHeartRateMode:
+                let enabled = (message[WCKeys.enabled] as? Bool) ?? false
+                self.onToggleHeartRateMode?(enabled)
+                self.handleHeartRateMode(enabled: enabled)
+
+            case WCKeys.heartRateUpdate:
+                let bpm = (message[WCKeys.bpm] as? Int)
+                    ?? (message[WCKeys.value] as? Int)
+                guard let bpm else { return }
+
+                self.onHeartRateUpdate?(bpm)
+
+                // si mode OFF, on ignore
+                guard self.heartRateModeEnabled else { return }
+                self.handleHeartRate(bpm)
 
             default:
                 break
