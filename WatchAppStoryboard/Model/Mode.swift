@@ -12,6 +12,7 @@ struct Mode: Identifiable, Codable, Equatable {
     var temperature: Int
     var sound: Int
     var luminosity: Int
+    var hue: Double
     
     var lightAccessoryIds: [UUID]
 
@@ -22,7 +23,8 @@ struct Mode: Identifiable, Codable, Equatable {
             temperature: Int,
             sound: Int,
             luminosity: Int,
-            lightAccessoryIds: [UUID] = []
+            lightAccessoryIds: [UUID] = [],
+            hue: Double
         ) {
             self.id = id
             self.name = name
@@ -30,6 +32,7 @@ struct Mode: Identifiable, Codable, Equatable {
             self.sound = sound
             self.luminosity = luminosity
             self.lightAccessoryIds = lightAccessoryIds
+            self.hue = hue
         }
 }
 

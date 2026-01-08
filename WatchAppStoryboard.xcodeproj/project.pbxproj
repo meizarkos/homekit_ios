@@ -17,6 +17,17 @@
 		A7B2FA182ED37E3000C7AB95 /* VerticalSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2FA172ED37E2B00C7AB95 /* VerticalSlider.swift */; };
 		A7B2FA1A2ED39ADD00C7AB95 /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2FA192ED39AD800C7AB95 /* Temperature.swift */; };
 		A7CDED902ECD2567003FAAE5 /* Lightbulb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CDED8F2ECD2567003FAAE5 /* Lightbulb.swift */; };
+		DE4A851D2F0BB049005AAAC5 /* ModeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A85192F0BB049005AAAC5 /* ModeDTO.swift */; };
+		DE4A851E2F0BB049005AAAC5 /* WCKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A851A2F0BB049005AAAC5 /* WCKeys.swift */; };
+		DE4A851F2F0BB049005AAAC5 /* WCMessageCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A851B2F0BB049005AAAC5 /* WCMessageCodec.swift */; };
+		DE4A85242F0BB05A005AAAC5 /* ActiveHandleModeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A85202F0BB05A005AAAC5 /* ActiveHandleModeHandler.swift */; };
+		DE4A85252F0BB05A005AAAC5 /* WatchSessionManager_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A85222F0BB05A005AAAC5 /* WatchSessionManager_iOS.swift */; };
+		DE4A85262F0BB05A005AAAC5 /* WatchBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A85212F0BB05A005AAAC5 /* WatchBridge.swift */; };
+		DE4A852A2F0BB094005AAAC5 /* WatchSessionManager_Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A85282F0BB094005AAAC5 /* WatchSessionManager_Watch.swift */; };
+		DE4A852B2F0BB094005AAAC5 /* WatchModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A85272F0BB094005AAAC5 /* WatchModeView.swift */; };
+		DE4A852C2F0BB0EA005AAAC5 /* ModeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A85192F0BB049005AAAC5 /* ModeDTO.swift */; };
+		DE4A852D2F0BB0F1005AAAC5 /* WCKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A851A2F0BB049005AAAC5 /* WCKeys.swift */; };
+		DE4A852E2F0BB0F8005AAAC5 /* WCMessageCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4A851B2F0BB049005AAAC5 /* WCMessageCodec.swift */; };
 		DE5EA1AE2ED7BE5000EB1F84 /* ModeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5EA1AD2ED7BE4900EB1F84 /* ModeViewModel.swift */; };
 		E0AE37CF2B4C4375007AE4BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0AE37CE2B4C4375007AE4BE /* Assets.xcassets */; };
 		E0AE37D22B4C4375007AE4BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0AE37D02B4C4375007AE4BE /* LaunchScreen.storyboard */; };
@@ -63,6 +74,14 @@
 		A7B2FA172ED37E2B00C7AB95 /* VerticalSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSlider.swift; sourceTree = "<group>"; };
 		A7B2FA192ED39AD800C7AB95 /* Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		A7CDED8F2ECD2567003FAAE5 /* Lightbulb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lightbulb.swift; sourceTree = "<group>"; };
+		DE4A85192F0BB049005AAAC5 /* ModeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeDTO.swift; sourceTree = "<group>"; };
+		DE4A851A2F0BB049005AAAC5 /* WCKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCKeys.swift; sourceTree = "<group>"; };
+		DE4A851B2F0BB049005AAAC5 /* WCMessageCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCMessageCodec.swift; sourceTree = "<group>"; };
+		DE4A85202F0BB05A005AAAC5 /* ActiveHandleModeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveHandleModeHandler.swift; sourceTree = "<group>"; };
+		DE4A85212F0BB05A005AAAC5 /* WatchBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchBridge.swift; sourceTree = "<group>"; };
+		DE4A85222F0BB05A005AAAC5 /* WatchSessionManager_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager_iOS.swift; sourceTree = "<group>"; };
+		DE4A85272F0BB094005AAAC5 /* WatchModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModeView.swift; sourceTree = "<group>"; };
+		DE4A85282F0BB094005AAAC5 /* WatchSessionManager_Watch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager_Watch.swift; sourceTree = "<group>"; };
 		DE5EA1AD2ED7BE4900EB1F84 /* ModeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeViewModel.swift; sourceTree = "<group>"; };
 		E0AE37C22B4C4373007AE4BE /* WatchAppStoryboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchAppStoryboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0AE37CE2B4C4375007AE4BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,6 +166,35 @@
 			path = HomeKitExtension;
 			sourceTree = "<group>";
 		};
+		DE4A851C2F0BB049005AAAC5 /* SharedWC */ = {
+			isa = PBXGroup;
+			children = (
+				DE4A85192F0BB049005AAAC5 /* ModeDTO.swift */,
+				DE4A851A2F0BB049005AAAC5 /* WCKeys.swift */,
+				DE4A851B2F0BB049005AAAC5 /* WCMessageCodec.swift */,
+			);
+			path = SharedWC;
+			sourceTree = "<group>";
+		};
+		DE4A85232F0BB05A005AAAC5 /* WatchConnectivity */ = {
+			isa = PBXGroup;
+			children = (
+				DE4A85202F0BB05A005AAAC5 /* ActiveHandleModeHandler.swift */,
+				DE4A85212F0BB05A005AAAC5 /* WatchBridge.swift */,
+				DE4A85222F0BB05A005AAAC5 /* WatchSessionManager_iOS.swift */,
+			);
+			path = WatchConnectivity;
+			sourceTree = "<group>";
+		};
+		DE4A85292F0BB094005AAAC5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DE4A85272F0BB094005AAAC5 /* WatchModeView.swift */,
+				DE4A85282F0BB094005AAAC5 /* WatchSessionManager_Watch.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		E0AE37B92B4C4373007AE4BE = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +216,8 @@
 		E0AE37C42B4C4373007AE4BE /* WatchAppStoryboard */ = {
 			isa = PBXGroup;
 			children = (
+				DE4A85232F0BB05A005AAAC5 /* WatchConnectivity */,
+				DE4A851C2F0BB049005AAAC5 /* SharedWC */,
 				DE71FE202EEECB2E00FB2741 /* Service */,
 				DE5EA1A92ED7AF1000EB1F84 /* Model */,
 				A7B2FA142ED3730B00C7AB95 /* ViewModel */,
@@ -186,6 +236,7 @@
 		E0AE37E82B4C4376007AE4BE /* WatchAppStoryboard WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				DE4A85292F0BB094005AAAC5 /* View */,
 				E0AE37E92B4C4376007AE4BE /* WatchApp.swift */,
 				E0AE37EB2B4C4376007AE4BE /* ExtensionDelegate.swift */,
 				E0AE37ED2B4C4376007AE4BE /* ComplicationController.swift */,
@@ -310,8 +361,14 @@
 				A7B2FA1A2ED39ADD00C7AB95 /* Temperature.swift in Sources */,
 				A72699A42ECA8BBA006F2AE9 /* PhoneApp.swift in Sources */,
 				A72046862ED502A600F1A077 /* PictureAnalysis.swift in Sources */,
+				DE4A851D2F0BB049005AAAC5 /* ModeDTO.swift in Sources */,
+				DE4A851E2F0BB049005AAAC5 /* WCKeys.swift in Sources */,
+				DE4A851F2F0BB049005AAAC5 /* WCMessageCodec.swift in Sources */,
 				A72046842ED4FC2100F1A077 /* ColorButton.swift in Sources */,
 				A7CDED902ECD2567003FAAE5 /* Lightbulb.swift in Sources */,
+				DE4A85242F0BB05A005AAAC5 /* ActiveHandleModeHandler.swift in Sources */,
+				DE4A85252F0BB05A005AAAC5 /* WatchSessionManager_iOS.swift in Sources */,
+				DE4A85262F0BB05A005AAAC5 /* WatchBridge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,9 +376,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE4A852C2F0BB0EA005AAAC5 /* ModeDTO.swift in Sources */,
 				E0AE37EC2B4C4376007AE4BE /* ExtensionDelegate.swift in Sources */,
 				E0AE37EA2B4C4376007AE4BE /* WatchApp.swift in Sources */,
+				DE4A852D2F0BB0F1005AAAC5 /* WCKeys.swift in Sources */,
+				DE4A852E2F0BB0F8005AAAC5 /* WCMessageCodec.swift in Sources */,
 				E0AE37EE2B4C4376007AE4BE /* ComplicationController.swift in Sources */,
+				DE4A852A2F0BB094005AAAC5 /* WatchSessionManager_Watch.swift in Sources */,
+				DE4A852B2F0BB094005AAAC5 /* WatchModeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,7 +550,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
 		};
@@ -521,7 +583,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 8.5;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};

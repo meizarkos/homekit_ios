@@ -1,3 +1,6 @@
+
+
+
 import SwiftUI
 import HomeKit
 
@@ -14,14 +17,18 @@ struct HomeKitView: View {
                 if !homeKitManager.homes.isEmpty {
                     Section(header: Text("Maisons")) {
                         ForEach(homeKitManager.homes, id: \.uniqueIdentifier) { home in
-                            NavigationLink(destination: ModeListView(name: home.name, temperature: 12, sound: 21, luminosity: 22)) {
+                            NavigationLink(destination: ModeListView(name: home.name, temperature: 20, sound: 50, luminosity: 70)) {
                                 HStack {
                                     Label(home.name, systemImage: "house")
                                     Spacer()
+                                    Text("\(home.accessories.count)")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
                                     if home == homeKitManager.homeManager.primaryHome {
                                         Text("Principale")
                                             .font(.caption)
                                             .foregroundColor(.blue)
+                                            .padding(.leading, 4)
                                     }
                                 }
                             }
@@ -36,11 +43,21 @@ struct HomeKitView: View {
                             // Accessoires
                             ForEach(home.accessories, id: \.uniqueIdentifier) { accessory in
                                 HStack {
-                                    Image(systemName: "lightbulb.fill")
-                                        .foregroundColor(.yellow)
-                                    Text(accessory.name)
-                                        .font(.subheadline)
+                                    Image(systemName: getAccessoryIcon(for: accessory))
+                                        .foregroundColor(getAccessoryColor(for: accessory))
+                                    VStack(alignment: .leading) {
+                                        Text(accessory.name)
+                                            .font(.subheadline)
+                                        Text(accessory.room?.name ?? "Aucune pièce")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                    }
                                     Spacer()
+                                    if !accessory.isReachable {
+                                        Text("Hors ligne")
+                                            .font(.caption)
+                                            .foregroundColor(.red)
+                                    }
                                     Button(role: .destructive) {
                                         accessoryToDelete = (accessory, home)
                                         showingDeleteAlert = true
@@ -62,11 +79,12 @@ struct HomeKitView: View {
                 
                 // Section des accessoires trouvés
                 Section(header: HStack {
-                    Text("Accessoires trouvés (\(homeKitManager.foundAccessories.count))")
+                    Text("Nouveaux accessoires (\(homeKitManager.foundAccessories.count))")
                     Spacer()
-                    Button("🔄") {
+                    Button("Rafraîchir") {
                         homeKitManager.refreshAll()
                     }
+                    .font(.caption)
                 }) {
                     if homeKitManager.foundAccessories.isEmpty {
                         Text("Aucun accessoire détecté.")
@@ -74,12 +92,17 @@ struct HomeKitView: View {
                     } else {
                         ForEach(homeKitManager.foundAccessories, id: \.uniqueIdentifier) { accessory in
                             HStack {
-                                Text(accessory.name)
+                                VStack(alignment: .leading) {
+                                    Text(accessory.name)
+                                    Text("Non apparié")
+                                        .font(.caption)
+                                        .foregroundColor(.orange)
+                                }
                                 Spacer()
                                 Button("Ajouter") {
                                     homeKitManager.addAccessoryToHome(accessory)
                                 }
-                                .buttonStyle(.bordered)
+                                .buttonStyle(.borderedProminent)
                             }
                         }
                     }
@@ -107,16 +130,17 @@ struct HomeKitView: View {
                     HStack {
                         TextField("Nom de la maison", text: $newHomeName)
                         
-                        Button("Ajouter maison") {
+                        Button("Ajouter") {
                             if !newHomeName.isEmpty {
                                 homeKitManager.addHome(named: newHomeName)
                                 newHomeName = ""
                             }
                         }
+                        .disabled(newHomeName.isEmpty)
                     }
                 }
             }
-            .navigationTitle("HomeKit Scanner")
+            .navigationTitle("HomeKit")
             .alert("Supprimer l'accessoire ?", isPresented: $showingDeleteAlert) {
                 Button("Annuler", role: .cancel) { }
                 Button("Supprimer", role: .destructive) {
@@ -129,6 +153,48 @@ struct HomeKitView: View {
                     Text("Voulez-vous vraiment supprimer \(accessory.name) ?")
                 }
             }
+            .onAppear {
+                // Charger les maisons au démarrage
+                homeKitManager.refreshAll()
+            }
+        }
+    }
+    
+    private func getAccessoryIcon(for accessory: HMAccessory) -> String {
+        switch accessory.category.categoryType {
+        case HMAccessoryCategoryTypeLightbulb:
+            return "lightbulb.fill"
+        case HMAccessoryCategoryTypeSwitch:
+            return "power"
+        case HMAccessoryCategoryTypeOutlet:
+            return "outlet"
+        case HMAccessoryCategoryTypeFan:
+            return "fan.fill"
+        case HMAccessoryCategoryTypeThermostat:
+            return "thermometer"
+        default:
+            return "square.grid.2x2"
+        }
+    }
+    
+    private func getAccessoryColor(for accessory: HMAccessory) -> Color {
+        if !accessory.isReachable {
+            return .gray
+        }
+        
+        switch accessory.category.categoryType {
+        case HMAccessoryCategoryTypeLightbulb:
+            return .yellow
+        case HMAccessoryCategoryTypeSwitch:
+            return .blue
+        case HMAccessoryCategoryTypeOutlet:
+            return .orange
+        case HMAccessoryCategoryTypeFan:
+            return .cyan
+        case HMAccessoryCategoryTypeThermostat:
+            return .red
+        default:
+            return .gray
         }
     }
 }
