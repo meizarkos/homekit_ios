@@ -222,7 +222,8 @@ struct HandleModeView : View {
                 name: handleModeViewModel.name,
                 temperature: handleModeViewModel.temperature,
                 sound: handleModeViewModel.sound,
-                luminosity: handleModeViewModel.luminosity
+                luminosity: handleModeViewModel.luminosity,
+                hue: handleModeViewModel.hue
             )
             modeVM.addModes(newMode)
         }

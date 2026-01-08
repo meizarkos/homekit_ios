@@ -27,13 +27,6 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         }
     }
     
-    func getAllLightsFromHome() -> [HMAccessory] {
-            guard let home = currentHome() else { return [] }
-            return home.accessories.filter { accessory in
-                accessory.services.contains { $0.serviceType == HMServiceTypeLightbulb }
-            }
-        }
-    
     func refreshAssignedAccessories() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -185,30 +178,6 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
         }
     }
     
-   
-    func setLightPower(_ accessory: HMAccessory, isOn: Bool) {
-            for service in accessory.services {
-                for characteristic in service.characteristics {
-                    if characteristic.characteristicType == HMCharacteristicTypePowerState {
-                        characteristic.writeValue(isOn) { error in
-                            if let error = error {
-                                print(" Failed to set power: \(error.localizedDescription)")
-                            } else {
-                                print(" Light power set to \(isOn ? "ON" : "OFF") (\(accessory.name))")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    func currentHome() -> HMHome? {
-           homeManager.primaryHome ?? homeManager.homes.first
-       }
-    
-    func getAccessoriesByIds(_ ids: [UUID]) -> [HMAccessory] {
-           guard let home = currentHome() else { return [] }
-           return home.accessories.filter { ids.contains($0.uniqueIdentifier) }
-       }
     
     func setLightBrightness(_ accessory: HMAccessory, brightness: Int) {
         let value = max(0, min(brightness, 100)) // Clamp entre 0 et 100
@@ -228,7 +197,6 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
             }
         }
     }
-    
     func setLightColor(
         _ accessory: HMAccessory,
         hue: Double
@@ -250,6 +218,84 @@ final class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, H
                     }
                 default:
                     break
+                }
+            }
+        }
+    }
+    func setSpeakerVolume(_ accessory: HMAccessory, volume: Int) {
+        let value = max(0, min(volume, 100))
+        
+        for service in accessory.services {
+            guard service.serviceType == HMServiceTypeSpeaker else { continue }
+            
+            for characteristic in service.characteristics {
+                if characteristic.characteristicType == HMCharacteristicTypeVolume {
+                    characteristic.writeValue(Float(value)) { error in
+                        if let error {
+                            print("Failed to set volume: \(error.localizedDescription)")
+                        } else {
+                            print("Volume set to \(value)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func setTargetTemperature(_ accessory: HMAccessory, temperature: Int) {
+        for service in accessory.services {
+            guard service.serviceType == HMServiceTypeThermostat else { continue }
+            
+            for characteristic in service.characteristics {
+                if characteristic.characteristicType == HMCharacteristicTypeTargetTemperature {
+                    characteristic.writeValue(Double(temperature)) { error in
+                        if let error {
+                            print("Failed to set temperature: \(error.localizedDescription)")
+                        } else {
+                            print("Temperature set to \(temperature)°C")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func getAllLightsFromHome() -> [HMAccessory] {
+        guard let home = currentHome() else { return [] }
+        return home.accessories.filter { accessory in
+            accessory.services.contains { $0.serviceType == HMServiceTypeLightbulb }
+        }
+    }
+    
+    func currentHome() -> HMHome? {
+        homeManager.primaryHome ?? homeManager.homes.first
+    }
+    
+    func getAccessoriesByIds(_ ids: [UUID]) -> [HMAccessory] {
+        guard let home = currentHome() else { return [] }
+        return home.accessories.filter { ids.contains($0.uniqueIdentifier) }
+    }
+    
+    func getAllThermostatsFromHome() -> [HMAccessory] {
+        guard let home = currentHome() else { return [] }
+        return home.accessories.filter { accessory in
+            accessory.category.categoryType == HMAccessoryCategoryTypeThermostat
+        }
+    }
+
+    func setAccessoryTemperature(_ accessory: HMAccessory, temperature: Int) {
+        let value = max(10, min(temperature, 30))
+        
+        accessory.services.forEach { service in
+            service.characteristics.forEach { characteristic in
+                if characteristic.characteristicType == HMCharacteristicTypeTargetTemperature {
+                    characteristic.writeValue(Double(value)) { error in
+                        if let error {
+                            print("Erreur température : \(error.localizedDescription)")
+                        } else {
+                            print("Température réglée à \(value)° pour \(accessory.name)")
+                        }
+                    }
                 }
             }
         }
